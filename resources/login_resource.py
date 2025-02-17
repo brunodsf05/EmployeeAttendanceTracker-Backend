@@ -13,11 +13,19 @@ class LoginResource(Resource):
 
     def post(self):
         """
-        Espera un "user" y "password" podrá devolver un token o un mensaje de error.
+        Recibe las credenciales de usuario para devolver un token se sesión.
+        En caso de que no se pueda devolver un token, devolvemos un código de error.
+
+        Entrada:
+            { "username": ..., "password": ... }
+
+        Salida: ¿Se devuelve un token?
+            Sí { "success": True, "token": ... }
+            No { "success": False, "error": ... }
         """
         datos = request.get_json()
 
-        user = datos["user"]
+        username = datos["username"]
         password = datos["password"]
 
         """
@@ -35,4 +43,4 @@ class LoginResource(Resource):
         receta.guardar()
         """
 
-        return {"success": False, "message": "usernotfound"}, HTTPStatus.OK
+        return {"success": False, "error": "usernotfound"}, HTTPStatus.OK
