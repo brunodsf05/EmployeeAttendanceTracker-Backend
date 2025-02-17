@@ -4,7 +4,7 @@ from http import HTTPStatus
 
 
 
-from models import Receta
+from models import Trabajador
 
 
 
@@ -23,24 +23,22 @@ class LoginResource(Resource):
             Sí { "success": True, "token": ... }
             No { "success": False, "error": ... }
         """
-        datos = request.get_json()
+        # Leer petición
+        data = request.get_json()
 
-        username = datos["username"]
-        password = datos["password"]
+        username = data["username"]
+        password = data["password"]
 
-        """
-        if Receta.get_by_nombre(nombre_receta):
-            return {"message": "Ya existe una receta con ese nombre"}, HTTPStatus.BAD_REQUEST
+        trabajador = Trabajador.get_by_username(username)
 
-        receta = Receta(
-            nombre = nombre_receta,
-            descripcion = datos["descripcion"],
-            raciones = datos["raciones"],
-            tiempo = datos["tiempo"],
-            pasos = datos["pasos"],
-        )
+        # Validaciones
+        if trabajador == None:
+            return {"success": False, "error": "usernotfound"}, HTTPStatus.OK
 
-        receta.guardar()
-        """
+        if password != trabajador.password:
+            return {"success": False, "error": "incorrectpassword"}, HTTPStatus.OK
 
-        return {"success": False, "error": "usernotfound"}, HTTPStatus.OK
+        # Devolver token
+        token = "temp"
+
+        return {"success": True, "token": token}, HTTPStatus.OK
