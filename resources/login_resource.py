@@ -13,8 +13,7 @@ class LoginResource(Resource):
 
     def post(self):
         """
-        Espera un "user" y "password" podrá devolver
-        un token o un mensaje de error.
+        Espera un "user" y "password" podrá devolver un token o un mensaje de error.
         """
         datos = request.get_json()
 
@@ -36,4 +35,4 @@ class LoginResource(Resource):
         receta.guardar()
         """
 
-        return {"success": True, "token": "your_generated_token"}, HTTPStatus.CREATED
+        return {"success": False, "message": "usernotfound"}, HTTPStatus.OK
