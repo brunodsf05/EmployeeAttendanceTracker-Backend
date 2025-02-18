@@ -22,6 +22,10 @@ def register_extensions(app):
     db.init_app(app)
     migrate = Migrate(app, db)
 
+    @app.teardown_appcontext
+    def shutdown_session(exception=None):
+        db.session.remove()
+
 
 
 def register_resources(app):
