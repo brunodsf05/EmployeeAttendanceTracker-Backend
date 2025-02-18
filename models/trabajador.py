@@ -1,3 +1,5 @@
+from werkzeug.security import generate_password_hash, check_password_hash
+
 from extensions import db
 
 
@@ -11,7 +13,7 @@ class Trabajador(db.Model):
     telefono = db.Column(db.String(9))
 
     username = db.Column(db.String(30), unique=True, nullable=False)
-    password = db.Column(db.String(30))
+    password = db.Column(db.String(255), nullable=False)
 
     rol_id = db.Column(db.Integer, db.ForeignKey("roles.id"))
     horario_id = db.Column(db.Integer, db.ForeignKey("horarios.id"))
@@ -20,6 +22,15 @@ class Trabajador(db.Model):
     rol = db.relationship("Rol", backref=db.backref("trabajadores", lazy=True))
     horario = db.relationship("Horario", backref=db.backref("trabajadores", lazy=True))
     empresa = db.relationship("Empresa", backref=db.backref("trabajadores", lazy=True))
+
+    @password.setter
+    def password(self, password_plaintext):
+        """Hashea la contraseña antes de guardarla"""
+        self.__dict__["password"] = generate_password_hash(password_plaintext)
+
+    def check_password(self, password_plaintext):
+        """Verifica si la contraseña ingresada es correcta"""
+        return check_password_hash(self.password, password_plaintext)
 
     @classmethod
     def get_by_id(cls, id):
