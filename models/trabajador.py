@@ -10,7 +10,7 @@ class Trabajador(db.Model):
     nombre = db.Column(db.String(255))
     telefono = db.Column(db.String(9))
 
-    username = db.Column(db.String(30))
+    username = db.Column(db.String(30), unique=True, nullable=False)
     password = db.Column(db.String(30))
 
     rol_id = db.Column(db.Integer, db.ForeignKey("roles.id"))
