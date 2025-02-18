@@ -35,7 +35,7 @@ class LoginResource(Resource):
         if trabajador == None:
             return {"success": False, "error": "usernotfound"}, HTTPStatus.OK
 
-        if password != trabajador.password:
+        if not trabajador.check_password(password):
             return {"success": False, "error": "incorrectpassword"}, HTTPStatus.OK
 
         # Devolver token
