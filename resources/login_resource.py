@@ -1,7 +1,7 @@
 from flask import request
 from flask_restful import Resource
+from flask_jwt_extended import create_access_token, create_refresh_token
 from http import HTTPStatus
-
 
 
 from models import Trabajador
@@ -17,11 +17,11 @@ class LoginResource(Resource):
         En caso de que no se pueda devolver un token, devolvemos un código de error.
 
         Entrada:
-            { "username": ..., "password": ... }
+            { "username": "...", "password": "..." }
 
         Salida: ¿Se devuelve un token?
-            Sí { "success": True, "token": ... }
-            No { "success": False, "error": ... }
+            Sí { "success": True, "access_token": "...", "refresh_token": "..." }
+            No { "success": False, "error": "..." }
         """
         # Leer petición
         data = request.get_json()
@@ -33,12 +33,13 @@ class LoginResource(Resource):
 
         # Validaciones
         if trabajador == None:
-            return {"success": False, "error": "usernotfound"}, HTTPStatus.OK
+            return {"success": False, "error": "usernotfound"}, HTTPStatus.UNAUTHORIZED
 
         if not trabajador.check_password(password):
-            return {"success": False, "error": "incorrectpassword"}, HTTPStatus.OK
+            return {"success": False, "error": "incorrectpassword"}, HTTPStatus.UNAUTHORIZED
 
         # Devolver token
-        token = "temp"
+        access_token = create_access_token(identity=username)
+        refresh_token = create_refresh_token(identity=username)
 
-        return {"success": True, "token": token}, HTTPStatus.OK
+        return {"success": True, "access_token": access_token, "refresh_token": refresh_token}, HTTPStatus.OK

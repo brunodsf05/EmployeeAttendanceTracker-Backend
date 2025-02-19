@@ -1,11 +1,13 @@
 from flask import Flask
 from flask_migrate import Migrate
 from flask_restful import Api
+from flask_jwt_extended import JWTManager
+
 from config import Config
 from extensions import db
 from models import Dia, Empresa, FranjaHoraria, Horario, Incidencia, Receta, Registro, Rol, Trabajador
 from resources import LoginResource
-#from resources.recursosRecetas import RecetaListResource, RecetaResource, RecetaPublishResource
+
 
 
 
@@ -21,6 +23,7 @@ def  create_app():
 def register_extensions(app):
     db.init_app(app)
     migrate = Migrate(app, db)
+    jwt = JWTManager(app)
 
     @app.teardown_appcontext
     def shutdown_session(exception=None):
