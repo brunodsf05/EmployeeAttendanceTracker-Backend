@@ -6,7 +6,7 @@ from flask_jwt_extended import JWTManager
 from config import Config
 from extensions import db
 from models import Dia, Empresa, FranjaHoraria, Horario, Incidencia, Receta, Registro, Rol, Trabajador
-from resources import LoginResource
+from resources import LoginResource, FichajeResource
 
 
 
@@ -34,6 +34,7 @@ def register_extensions(app):
 def register_resources(app):
     api = Api(app)
     api.add_resource(LoginResource, "/login")
+    api.add_resource(FichajeResource, "/fichar")
     """
     api.add_resource(RecetaListResource, "/smilecook")
     api.add_resource(RecetaResource, "/smilecook/<int:receta_id>")
