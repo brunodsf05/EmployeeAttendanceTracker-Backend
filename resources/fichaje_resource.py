@@ -24,8 +24,11 @@ class AccionesRegistro(Enum):
     TOBEIN_WORK = "TOBEIN_WORK"
 
     @staticmethod
-    def get_from_trabajador(trabajador, tiempo):
-        return None
+    def get_from_trabajador(trabajador: Trabajador, tiempo: datetime):
+        franja_horaria = trabajador.horario.get_franjahoraria_by_date(tiempo)
+        hora_entrada = franja_horaria.hora_entrada
+        hora_salida = franja_horaria.hora_entrada
+        return { "id": franja_horaria.id, "hora_entrada": hora_entrada.isoformat(), "hora_salida": hora_salida.isoformat()}
 
 
 
@@ -34,39 +37,18 @@ class FichajeResource(Resource):
 
     @jwt_required()
     def get(self):
+        # Obtener trabajador de la petición
         username = get_jwt_identity()
         trabajador = Trabajador.get_by_username(username)
 
-        if not trabajador:
-            return {"message": "Trabajador no encontrado"}, HTTPStatus.NOT_FOUND
+        if trabajador is None:
+            return {"error": "usernotfound"}, HTTPStatus.NOT_FOUND
 
-        # Obtener registro de hoy
-        today = datetime.now().date()
-        registro = Registro.query.filter_by(trabajador_id=trabajador.id, fecha=today).first()
+        if trabajador.horario is None:
+            return {"error": "horarionotfound"}, HTTPStatus.NOT_FOUND
 
-        if registro is None:
-            # No hay registro, se debe fichar entrada
-            hora_actual = datetime.now().time()
-            if hora_actual < trabajador.horario.franja_horaria.hora_entrada:
-                return {"message": "Debes esperar a fichar entrada"}, HTTPStatus.BAD_REQUEST
-            elif hora_actual >= trabajador.horario.franja_horaria.hora_salida:
-                return {"message": "No has ido al trabajo"}, HTTPStatus.BAD_REQUEST
-            else:
-                # Fichar entrada
-                nuevo_registro = Registro(fecha=today, hora_entrada=hora_actual)
-                nuevo_registro.trabajador = trabajador
-                nuevo_registro.save()
-                return {"message": "Fichaje de entrada registrado"}, HTTPStatus.CREATED
-        else:
-            # Ya hay un registro, verificar si puede fichar salida
-            if registro.hora_salida is not None:
-                return {"message": "Ya has fichado salida"}, HTTPStatus.BAD_REQUEST
-
-            hora_actual = datetime.now().time()
-            if hora_actual < trabajador.horario.franja_horaria.hora_salida:
-                return {"message": "Aún no puedes fichar salida"}, HTTPStatus.BAD_REQUEST
-            else:
-                # Fichar salida
-                registro.hora_salida = hora_actual
-                registro.save()
-                return {"message": "Fichaje de salida registrado"}, HTTPStatus.OK
+        # Conseguir accion
+        return {
+            "trabajador": trabajador.nombre,
+            "accion": AccionesRegistro.get_from_trabajador(trabajador, datetime.now())
+        }, HTTPStatus.OK
