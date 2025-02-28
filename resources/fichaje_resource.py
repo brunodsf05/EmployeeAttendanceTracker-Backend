@@ -24,6 +24,9 @@ class AccionesRegistro(Enum):
     TOBEIN_WORK = "TOBEIN_WORK"  # No te encuentras en el lugar de trabajo
     FREEDAY = "FREEDAY" # Hoy no trabajas
 
+    def __str__(self):
+        return self.value
+
     @staticmethod
     def get_from_trabajador(trabajador: Trabajador, tiempo: datetime):
         # Conseguir la franja horaria del trabajador
