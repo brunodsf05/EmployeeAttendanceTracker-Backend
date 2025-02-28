@@ -15,14 +15,14 @@ class AccionesRegistro(Enum):
     Esto describe las acciones que debe realizar un trabajador sobre los fichajes.
     Ejemplo: Si un trabajador entra a las 3:00 pero son las 2:00, debe esperar (WAIT).
     """
-    WAIT = "WAIT"
-    START = "START"
-    WORK = "WORK"
-    EXIT = "EXIT"
-    RECOVER = "RECOVER"
-    NOTIFY_AUSENCE = "NOTIFY_AUSENCE"
-    TOBEIN_WORK = "TOBEIN_WORK"
-    FREEDAY = "FREEDAY"
+    WAIT = "WAIT" # Debes esperar a que sea la hora de entrada
+    START = "START" # Debes iniciar tu jornada laboral
+    WORK = "WORK" # Todavía no se ha terminado la jornada laboral
+    EXIT = "EXIT" # Ya puedes salir del trabajo
+    RECOVER = "RECOVER" # Ya fichastes la salida
+    NOTIFY_AUSENCE = "NOTIFY_AUSENCE" # No fichastes la entrada
+    TOBEIN_WORK = "TOBEIN_WORK"  # No te encuentras en el lugar de trabajo
+    FREEDAY = "FREEDAY" # Hoy no trabajas
 
     @staticmethod
     def get_from_trabajador(trabajador: Trabajador, tiempo: datetime):
