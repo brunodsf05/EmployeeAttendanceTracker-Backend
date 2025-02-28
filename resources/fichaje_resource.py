@@ -37,7 +37,7 @@ class AccionesRegistro(Enum):
 
         # Conseguir horas
         hora_entrada = franja_horaria.hora_entrada
-        hora_salida = franja_horaria.hora_entrada
+        hora_salida = franja_horaria.hora_salida
 
         return { "id": franja_horaria.id, "hora_entrada": hora_entrada.isoformat(), "hora_salida": hora_salida.isoformat()}
 
