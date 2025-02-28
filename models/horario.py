@@ -1,4 +1,6 @@
 from extensions import db
+from datetime import datetime
+from .franja_horaria import FranjaHoraria
 
 
 
@@ -32,3 +34,7 @@ class Horario(db.Model):
             "nombre": self.nombre,
             "descripcion": self.descripcion
         }
+
+    def get_franjahoraria_by_date(self, fecha):
+        dia_id = fecha.weekday() + 1  # Asumiendo que el id del día comienza en 1 para Lunes
+        return FranjaHoraria.query.filter_by(dia_id=dia_id, horario_id=self.id).first()
