@@ -16,7 +16,6 @@ __all__ = [
     "Incidencia",
     "Receta",
     "Registro",
-    "AccionesRegistro",
     "Rol",
     "Trabajador"
 ]

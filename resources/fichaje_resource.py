@@ -3,9 +3,29 @@ from flask_restful import Resource
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from http import HTTPStatus
 
+from enum import Enum
 from datetime import datetime
 
 from models import Registro, Trabajador
+
+
+
+class AccionesRegistro(Enum):
+    """
+    Esto describe las acciones que debe realizar un trabajador sobre los fichajes.
+    Ejemplo: Si un trabajador entra a las 3:00 pero son las 2:00, debe esperar (WAIT).
+    """
+    WAIT = "WAIT"
+    START = "START"
+    WORK = "WORK"
+    EXIT = "EXIT"
+    RECOVER = "RECOVER"
+    NOTIFY_AUSENCE = "NOTIFY_AUSENCE"
+    TOBEIN_WORK = "TOBEIN_WORK"
+
+    @staticmethod
+    def get_from_trabajador(trabajador, tiempo):
+        return None
 
 
 
