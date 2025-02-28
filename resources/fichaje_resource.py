@@ -51,7 +51,7 @@ class AccionesRegistro(Enum):
         if no_puede_entrar:
             return AccionesRegistro.WAIT
 
-        registro = Registro.get_by_trabajador_and_date(trabajador, tiempo.date())
+        registro = Registro.query.filter_by(trabajador_id=trabajador.id, fecha=tiempo.date()).first()
 
         # Todavía no se registró la entrada
         if registro is None:
