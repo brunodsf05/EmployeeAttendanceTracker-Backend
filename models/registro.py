@@ -52,3 +52,7 @@ class AccionesRegistro(Enum):
     RECOVER = "RECOVER"
     NOTIFY_AUSENCE = "NOTIFY_AUSENCE"
     TOBEIN_WORK = "TOBEIN_WORK"
+
+    @staticmethod
+    def get_from_trabajador(trabajador, tiempo):
+        return None
