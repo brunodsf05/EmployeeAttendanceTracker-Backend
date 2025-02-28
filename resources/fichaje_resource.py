@@ -22,12 +22,20 @@ class AccionesRegistro(Enum):
     RECOVER = "RECOVER"
     NOTIFY_AUSENCE = "NOTIFY_AUSENCE"
     TOBEIN_WORK = "TOBEIN_WORK"
+    FREEDAY = "FREEDAY"
 
     @staticmethod
     def get_from_trabajador(trabajador: Trabajador, tiempo: datetime):
+        # Conseguir la franja horaria del trabajador
         franja_horaria = trabajador.horario.get_franjahoraria_by_date(tiempo)
+
+        if franja_horaria is None:
+            return AccionesRegistro.FREEDAY
+
+        # Conseguir horas
         hora_entrada = franja_horaria.hora_entrada
         hora_salida = franja_horaria.hora_entrada
+
         return { "id": franja_horaria.id, "hora_entrada": hora_entrada.isoformat(), "hora_salida": hora_salida.isoformat()}
 
 
