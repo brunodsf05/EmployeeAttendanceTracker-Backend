@@ -59,7 +59,9 @@ class FichajeResource(Resource):
             return {"error": "horarionotfound"}, HTTPStatus.NOT_FOUND
 
         # Conseguir accion
+        tiempo_actual = datetime.now().replace(year=2025, month=2, day=24)
+
         return {
             "trabajador": trabajador.nombre,
-            "accion": AccionesRegistro.get_from_trabajador(trabajador, datetime.now())
+            "accion": str(AccionesRegistro.get_from_trabajador(trabajador, tiempo_actual))
         }, HTTPStatus.OK
