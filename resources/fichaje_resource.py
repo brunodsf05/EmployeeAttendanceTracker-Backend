@@ -97,8 +97,7 @@ class FichajeResource(Resource):
         return {
             "action": str(accion),
             "debug": {
-                "date": tiempo_actual.date().isoformat(),
-                "time": tiempo_actual.time().isoformat(),
+                "today": tiempo_actual.isoformat(),
                 "horario": {
                     "id": trabajador.horario.id,
                     "nombre": trabajador.horario.nombre,
