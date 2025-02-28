@@ -29,6 +29,9 @@ class AccionesRegistro(Enum):
 
     @staticmethod
     def get_from_trabajador(trabajador: Trabajador, tiempo: datetime):
+        """Consigue la acción que debe realizar el trabajador en el tiempo dado.
+        No tiene en cuenta la geolocalización del trabajador, por lo esa parte se debe manejar aparte.
+        """
         # Conseguir la franja horaria del trabajador
         franja_horaria = trabajador.horario.get_franjahoraria_by_date(tiempo)
 
@@ -36,10 +39,39 @@ class AccionesRegistro(Enum):
             return AccionesRegistro.FREEDAY
 
         # Conseguir horas
+        hora_actual = tiempo.time()
         hora_entrada = franja_horaria.hora_entrada
         hora_salida = franja_horaria.hora_salida
 
-        return { "id": franja_horaria.id, "hora_entrada": hora_entrada.isoformat(), "hora_salida": hora_salida.isoformat()}
+        # Condiciones con nombre limpio
+        no_puede_entrar = hora_actual < hora_entrada
+        es_hora_laboral = hora_actual < hora_salida
+
+        # Conseguir accion
+        if no_puede_entrar:
+            return AccionesRegistro.WAIT
+
+        registro = Registro.get_by_trabajador_and_date(trabajador, tiempo.date())
+
+        # Todavía no se registró la entrada
+        if registro is None:
+            if es_hora_laboral:
+                return AccionesRegistro.START
+            else:
+                return AccionesRegistro.NOTIFY_AUSENCE
+
+        if registro.hora_entrada is None:
+            return AccionesRegistro.START
+
+        # Todavía no se registró la salida
+        if registro.hora_salida is None:
+            if es_hora_laboral:
+                return AccionesRegistro.WORK
+            else:
+                return AccionesRegistro.EXIT
+
+        # Ya realizó su jornada laboral
+        return AccionesRegistro.RECOVER
 
 
 
