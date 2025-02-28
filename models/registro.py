@@ -7,8 +7,8 @@ class Registro(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     fecha = db.Column(db.Date, nullable=False)
-    hora_entrada = db.Column(db.Time, nullable=False)
-    hora_salida = db.Column(db.Time, nullable=False)
+    hora_entrada = db.Column(db.Time, nullable=True)
+    hora_salida = db.Column(db.Time, nullable=True)
 
     trabajador_id = db.Column(db.Integer, db.ForeignKey("trabajadores.id"))
     trabajador = db.relationship("Trabajador", backref=db.backref("registros", lazy=True))
