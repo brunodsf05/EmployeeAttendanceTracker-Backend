@@ -94,8 +94,19 @@ class FichajeResource(Resource):
         tiempo_actual = datetime.now()
         accion = AccionesRegistro.get_from_trabajador(trabajador, tiempo_actual)
 
+        # Conseguir horas
+        hora_entrada,hora_salida = None, None
+
+        franja_horaria = trabajador.horario.get_franjahoraria_by_date(tiempo_actual)
+
+        if franja_horaria is not None:
+            hora_entrada = franja_horaria.hora_entrada
+            hora_salida = franja_horaria.hora_salida
+
         return {
             "action": str(accion),
+            "hora_entrada": hora_entrada.isoformat(),
+            "hora_salida": hora_salida.isoformat(),
             "debug": {
                 "today": tiempo_actual.isoformat(),
                 "horario": {
