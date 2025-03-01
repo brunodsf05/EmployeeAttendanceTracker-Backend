@@ -115,3 +115,55 @@ class FichajeResource(Resource):
                 }
             }
         }, HTTPStatus.OK
+
+    @jwt_required()
+    def post(self):
+        # Obtener trabajador de la petición
+        username = get_jwt_identity()
+        trabajador = Trabajador.get_by_username(username)
+
+        if trabajador is None:
+            return {"error": "usernotfound"}, HTTPStatus.NOT_FOUND
+
+        if trabajador.horario is None:
+            return {"error": "horarionotfound"}, HTTPStatus.NOT_FOUND
+
+        if trabajador.empresa is None:
+            return {"error": "empresanotfound"}, HTTPStatus.NOT_FOUND
+
+        # Leer ubicación
+        data = request.get_json()
+
+        try:
+            user_latitude = float(data["latitude"])
+            user_longitude = float(data["longitude"])
+
+        except (ValueError, TypeError, KeyError):
+            return {"error": "invalidlocation"}, HTTPStatus.BAD_REQUEST
+
+        is_inside_empresa = trabajador.empresa.is_inside(user_latitude, user_longitude)
+
+        # Conseguir accion
+        tiempo_actual = datetime.now()
+        accion = AccionesRegistro.get_from_trabajador(trabajador, tiempo_actual)
+
+        # Manejar acción y ubicación
+        if not is_inside_empresa:
+            return {"error": "isnotinside"}, HTTPStatus.METHOD_NOT_ALLOWED
+
+        match accion:
+            case AccionesRegistro.START:
+                # Registrar entrada
+                registro = Registro(trabajador_id=trabajador.id, fecha=tiempo_actual.date(), hora_entrada=tiempo_actual.time())
+                registro.save()
+                return {"success": True, "message": "Entrada registrada"}, HTTPStatus.OK
+            
+            case AccionesRegistro.EXIT:
+                # Registrar salida
+                registro = Registro.query.filter_by(trabajador_id=trabajador.id, fecha=tiempo_actual.date()).first()
+                registro.hora_salida = tiempo_actual.time()
+                registro.save()
+                return {"success": True, "message": "Salida registrada"}, HTTPStatus.OK
+
+        # No se pudo realizar el fichaje
+        return {"error": "couldntclock"}, HTTPStatus.METHOD_NOT_ALLOWED

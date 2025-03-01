@@ -1,5 +1,6 @@
 from extensions import db
 
+import math
 
 
 class Empresa(db.Model):
@@ -26,6 +27,32 @@ class Empresa(db.Model):
     def save(self):
         db.session.add(self)
         db.session.commit()
+
+    def is_inside(self, latitud, longitud):
+        """
+        Verifica si un punto (latitud, longitud) está dentro del radio de la empresa.
+        Devuelve True si está dentro, False en caso contrario.
+        """
+        # Radio de la Tierra en kilómetros
+        R = 6371.0
+        
+        # Convertir grados a radianes
+        lat1_rad = math.radians(latitud)
+        lon1_rad = math.radians(longitud)
+        lat2_rad = math.radians(self.latitud)
+        lon2_rad = math.radians(self.longitud)
+        
+        # Diferencias de coordenadas
+        dlon = lon2_rad - lon1_rad
+        dlat = lat2_rad - lat1_rad
+        
+        # Fórmula de Haversine
+        a = math.sin(dlat/2)**2 + math.cos(lat1_rad) * math.cos(lat2_rad) * math.sin(dlon/2)**2
+        c = 2 * math.atan2(math.sqrt(a), math.sqrt(1-a))
+        distancia = R * c
+        
+        # Verificar si la distancia es menor o igual al radio
+        return distancia <= self.radio
 
     @property
     def data(self):
