@@ -99,6 +99,7 @@ def admin_login():
         # Almacenarlo en una cookie
         response = redirect(url_for("index"))
         response.set_cookie("access_token", access_token, httponly=True)
+        response.set_cookie("admin_name", user.nombre, httponly=True)
 
         return response
         
@@ -125,6 +126,7 @@ def close():
     """ Cerrar la sesión del panel de control eliminando la cookie """
     response = redirect(url_for("index"))
     response.delete_cookie("access_token")
+    response.delete_cookie("admin_name")
     return response
 
 
