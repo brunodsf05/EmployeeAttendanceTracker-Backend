@@ -61,6 +61,12 @@ def make_shell_contex():
 
 
 
+# MARK: SESIÓN DE ADMINISTRADOR
+
+def try_to_regain_session():
+    """ Intenta recuperar la sesión del administrador a partir de las cookies. Si no puede, te lanza a la página de error """
+    return redirect(url_for("page_not_found"))
+
 # MARK: FRONTEND
 
 @app.route("/", methods=["GET", "POST"])
@@ -122,7 +128,7 @@ def admin_login():
 @app.route("/admin/empresa", methods=["GET", "POST"])
 def admin_empresa():
     if not is_authenticated():
-        return redirect(url_for("page_not_found"))
+        return try_to_regain_session()
 
     """ Interfaz para configurar los datos de la empresa """
     form = EmpresaForm()
@@ -162,7 +168,7 @@ def admin_empresa():
 def admin_listar_empleados():
     """ Interfaz para listar a los empleados """
     if not is_authenticated():
-        return redirect(url_for("page_not_found"))
+        return try_to_regain_session()
 
     return redirect(url_for("index"))
 
@@ -171,6 +177,9 @@ def admin_listar_empleados():
 @app.route("/admin/empleado/editar/<id>", methods=["GET", "POST"])
 def admin_editar_empleado():
     """ Interfaz para modificar a un empleado """
+    if not is_authenticated():
+        return try_to_regain_session()
+
     return redirect(url_for("index"))
 
 
@@ -178,6 +187,9 @@ def admin_editar_empleado():
 @app.route("/admin/empleado/<id>", methods=["GET", "POST"])
 def admin_agregar_empleado():
     """ Interfaz para añadir a un empleado """
+    if not is_authenticated():
+        return try_to_regain_session()
+
     return redirect(url_for("index"))
 
 
@@ -185,6 +197,9 @@ def admin_agregar_empleado():
 @app.route("/admin/empleado/dardebaja/<id>", methods=["GET", "POST"])
 def admin_dardebaja_empleado():
     """ Interfaz para dar de baja a un empleado """
+    if not is_authenticated():
+        return try_to_regain_session()
+
     return redirect(url_for("index"))
 
 
