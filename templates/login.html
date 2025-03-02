@@ -8,6 +8,9 @@
     <div class="row">
         <h1>Iniciar sesión</h1>
         <p>Solo pueden entrar los admins 😎</p>
+        
+        {% if error %}<div class="alert alert-danger">{{ error }}</div>{% endif %}
+        
         {{ wtf.quick_form(form) }}
     </div>
 </div>

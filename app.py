@@ -2,7 +2,7 @@ from flask import Flask, render_template, redirect, url_for
 from flask_bootstrap import Bootstrap
 from flask_migrate import Migrate
 from flask_restful import Api
-from flask_jwt_extended import JWTManager
+from flask_jwt_extended import JWTManager, create_access_token
 from http import HTTPStatus
 
 from config import Config
@@ -67,12 +67,32 @@ def index():
 def admin_login():
     form = LoginForm()
 
-    if form.validate_on_submit():
-        # Aquí iría la lógica de autenticación
-        # Por ahora, solo hacemos una redirección de ejemplo
-        return redirect(url_for('index'))
+    def goto_login(error=""):
+        return render_template("login.html", form=form, error=error)
 
-    return render_template("login.html", form=form)
+    if form.validate_on_submit():
+        # Buscar al administrador
+        username = form.username.data
+        password = form.password.data
+        user = Trabajador.query.filter_by(nombre_usuario=username).first()
+
+        # Validaciones
+        if user is None:
+            return goto_login("Usuario no encontrado")
+
+        if not user.check_password(password):
+            return goto_login("Contraseña incorrecta")
+
+        # Crear token JWT
+        access_token = create_access_token(identity=username)
+        
+        # Almacenarlo en una cookie
+        response = redirect(url_for("index"))
+        response.set_cookie("access_token", access_token, httponly=True)
+
+        return response
+        
+    return goto_login()
 
 
 
