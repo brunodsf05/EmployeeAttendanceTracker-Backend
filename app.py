@@ -252,7 +252,7 @@ def admin_agregar_empleado():
 
 
 
-@app.route("/admin/empleado/dardebaja/<int:id>", methods=["GET", "POST"])
+@app.route("/admin/empleado/dar/baja/<int:id>", methods=["GET", "POST"])
 def admin_dardebaja_empleado(id):
     """ Interfaz para dar de baja a un empleado """
     if not is_authenticated():
@@ -264,6 +264,24 @@ def admin_dardebaja_empleado(id):
         return redirect(url_for("page_not_found"))
 
     trabajador.debaja = True
+    trabajador.save()
+
+    return redirect(url_for("admin_listar_empleados"))
+
+
+
+@app.route("/admin/empleado/dar/alta/<int:id>", methods=["GET", "POST"])
+def admin_dardealta_empleado(id):
+    """ Interfaz para dar de alta a un empleado """
+    if not is_authenticated():
+        return try_to_regain_session()
+
+    trabajador = Trabajador.get_by_id(id)
+
+    if trabajador is None:
+        return redirect(url_for("page_not_found"))
+
+    trabajador.debaja = False
     trabajador.save()
 
     return redirect(url_for("admin_listar_empleados"))
