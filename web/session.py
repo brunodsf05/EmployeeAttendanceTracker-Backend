@@ -24,7 +24,7 @@ def is_authenticated():
                 # Crear una respuesta con la nueva cookie
                 response = make_response(True)
                 response.set_cookie("access_token", new_access_token, httponly=True)
-                return response
+                return True
 
             except exceptions.JWTExtendedException:
                 pass  # Si hay algún error con el refresh token, el usuario no está autenticado
