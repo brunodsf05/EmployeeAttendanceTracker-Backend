@@ -1,4 +1,5 @@
 from flask import Flask, render_template
+from flask_bootstrap import Bootstrap
 from flask_migrate import Migrate
 from flask_restful import Api
 from flask_jwt_extended import JWTManager
@@ -41,7 +42,7 @@ def register_resources(app):
 
 
 app = create_app()
-
+bootstrap = Bootstrap(app)
 
 
 # MARK: DEPURACIÓN
@@ -58,6 +59,19 @@ def make_shell_contex():
 def index():
    """ Raíz del sitio """
    return render_template("index.html")
+
+
+
+@app.route("/user/<name>")
+def user(name):
+   """ TEMPORAL """
+   return render_template("index.html")
+
+
+
+@app.route('/logout')
+def close():
+   """ Cerrar sesión """
 
 
 
