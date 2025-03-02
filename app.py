@@ -258,7 +258,15 @@ def admin_dardebaja_empleado(id):
     if not is_authenticated():
         return try_to_regain_session()
 
-    return redirect(url_for("index"))
+    trabajador = Trabajador.get_by_id(id)
+
+    if trabajador is None:
+        return redirect(url_for("page_not_found"))
+
+    trabajador.debaja = True
+    trabajador.save()
+
+    return redirect(url_for("admin_listar_empleados"))
 
 
 
