@@ -11,6 +11,7 @@ class Trabajador(db.Model):
     nif = db.Column(db.String(20))
     nombre = db.Column(db.String(255))
     telefono = db.Column(db.String(9))
+    debaja = db.Column(db.Boolean(), default=True, nullable=False)
 
     username = db.Column(db.String(30), unique=True, nullable=False)
     _password = db.Column("password", db.String(255), nullable=False)
@@ -35,6 +36,10 @@ class Trabajador(db.Model):
 
     def check_password(self, password_plaintext):
         """Verifica si la contraseña ingresada es correcta"""
+        # HACK: Si está de baja, no puede entrar
+        if self.debaja:
+            return False
+
         return check_password_hash(self._password, password_plaintext)
 
     @classmethod
