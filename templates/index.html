@@ -11,7 +11,7 @@
     {% if is_authenticated() %}
         <p>¡Bienvenido de vuelta {{request.cookies.get('admin_name', 'sin nombre')}}!</p>
         <p>Ahora puedes leer y modificar los datos de la empresa...</p>
-        {% else %}
+    {% else %}
         <p>Vaya, parece ser que aún no has iniciado sesión...</p>
     {% endif %}
     
