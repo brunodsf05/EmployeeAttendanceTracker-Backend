@@ -10,6 +10,7 @@ from resources import LoginResource, FichajeResource
 
 
 
+# MARK: CONFIGURACIÓN
 
 def  create_app():
     app = Flask(__name__)
@@ -35,11 +36,6 @@ def register_resources(app):
     api = Api(app)
     api.add_resource(LoginResource, "/login")
     api.add_resource(FichajeResource, "/fichar")
-    """
-    api.add_resource(RecetaListResource, "/smilecook")
-    api.add_resource(RecetaResource, "/smilecook/<int:receta_id>")
-    api.add_resource(RecetaPublishResource, "/smilecook/<int:receta_id>")
-    """
 
 
 
@@ -47,32 +43,23 @@ app = create_app()
 
 
 
+# MARK: DEPURACIÓN
+
 @app.shell_context_processor
 def make_shell_contex():
     return dict(db=db, Dia=Dia, Empresa=Empresa, FranjaHoraria=FranjaHoraria, Horario=Horario, Incidencia=Incidencia, Receta=Receta, Registro=Registro, Rol=Rol, Trabajador=Trabajador)
 
 
 
+# MARK: FRONTEND
+
 @app.route("/")
 def index():
     return "ControlDePresencia"
 
-"""
-@app.route("/login", methods=["POST"])
-def login():
-    data = request.get_json()
-    user = data.get("user")
-    password = data.get('password')
 
-    if not user or not password:
-        return jsonify({"success": False, "message": "Invalid credentials"}), 400
 
-    # Simulación de autenticación
-    if user == "admin" and password == "password123":
-        return jsonify({"success": True, "token": "your_generated_token"}), 200
-    else:
-        return jsonify({"success": False, "message": "Authentication failed"}), 401
-"""
+# MARK: ENTRYPOINT
 
 if __name__ == "__main__":
     app.run()
