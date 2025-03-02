@@ -10,12 +10,12 @@
 <div class="container">
     <a href="{{ url_for('admin_agregar_empleado') }}" class="btn btn-primary">Agregar empleado</a>
 
-    {% if len(empleados_activos) == 0 and len(empleados_debaja) == 0 %}
+    {% if empleados_activos|length == 0 and empleados_debaja|length == 0 %}
         <div class="alert alert-info">No hay empleados</div>
     {% else %}
     
         <h2>Activos</h2>
-        {% if len(empleados_activos) == 0 %}
+        {% if empleados_activos|length == 0 %}
             <div class="alert alert-info">No hay empleados activos</div>
         {% else %}
             {% set empleados = empleados_activos %}
@@ -23,7 +23,7 @@
         {% endif %}
         
         <h2>De baja</h2>
-        {% if len(empleados_debaja) == 0 %}
+        {% if empleados_debaja|length == 0 %}
             <div class="alert alert-info">No hay empleados de baja</div>
         {% else %}
             {% set empleados = empleados_debaja %}
