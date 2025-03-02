@@ -125,7 +125,7 @@ def admin_empresa():
     form = EmpresaForm()
 
     def goto_empresa(error="", sucess=False):
-        time = datetime.now().isoformat() if sucess else None
+        time = datetime.now().isoformat() if sucess else ""
         return render_template("empresa.html", form=form, error=error, latest_time=time)
 
     if form.validate_on_submit():
@@ -143,7 +143,7 @@ def admin_empresa():
         empresa.save()
 
         return goto_empresa(sucess=True)
-        
+
     return goto_empresa()
 
 
