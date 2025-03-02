@@ -62,7 +62,7 @@ def make_shell_contex():
 
 # MARK: FRONTEND
 
-@app.route("/", methods=['GET', 'POST'])
+@app.route("/", methods=["GET", "POST"])
 def index():
    """ Raíz del sitio """
    return render_template("index.html")
@@ -106,7 +106,21 @@ def admin_login():
 
 
 
-@app.route('/logout')
+@app.route("/admin/empresa", methods=["GET", "POST"])
+def admin_empresa():
+    """ Interfaz para configurar los datos de la empresa """
+    return redirect(url_for("index"))
+
+
+
+@app.route("/admin/empleados", methods=["GET", "POST"])
+def admin_empleados():
+    """ Interfaz para configurar los datos de la empresa """
+    return redirect(url_for("index"))
+
+
+
+@app.route("/logout")
 def close():
     """ Cerrar la sesión del panel de control eliminando la cookie """
     response = redirect(url_for("index"))
