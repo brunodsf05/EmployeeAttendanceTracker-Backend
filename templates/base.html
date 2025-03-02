@@ -27,7 +27,7 @@
                 <li><a href="{{ url_for('index') }}">Inicio</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                {% if request.cookies.get('access_token') %}
+                {% if is_authenticated() %}
                     <li><a href="{{ url_for('close') }}" class="closeItem">Cerrar sesión</a></li>
                 {% else %}
                     <li><a href="{{ url_for('admin_login') }}" class="closeItem">Iniciar sesión</a></li>

@@ -9,7 +9,7 @@ from config import Config
 from extensions import db
 from models import Dia, Empresa, FranjaHoraria, Horario, Incidencia, Receta, Registro, Rol, Trabajador
 from resources import LoginResource, FichajeResource
-from web import LoginForm
+from web import LoginForm, is_authenticated
 
 
 
@@ -44,6 +44,12 @@ def register_resources(app):
 
 app = create_app()
 bootstrap = Bootstrap(app)
+
+
+
+@app.context_processor
+def inject_user():
+    return dict(is_authenticated=is_authenticated)
 
 
 # MARK: DEPURACIÓN
