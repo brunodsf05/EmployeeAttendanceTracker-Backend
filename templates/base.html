@@ -32,7 +32,7 @@
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 {% if is_authenticated() %}
-                    <li><a href="{{ url_for('close') }}">😎 {{request.cookies.get('admin_name', 'Administrador')}}</a></li>
+                    <li>😎 Admin: {{request.cookies.get('admin_name', '¿?')}}</li>
                     <li><a href="{{ url_for('close') }}" class="closeItem">🔓 Cerrar sesión</a></li>
                 {% else %}
                     <li><a href="{{ url_for('admin_login') }}" class="closeItem">🔒 Iniciar sesión</a></li>
