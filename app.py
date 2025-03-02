@@ -1,8 +1,8 @@
-from flask import Flask, render_template, redirect, url_for
+from flask import Flask, render_template, redirect, url_for, jsonify
 from flask_bootstrap import Bootstrap
 from flask_migrate import Migrate
 from flask_restful import Api
-from flask_jwt_extended import JWTManager, create_access_token, create_refresh_token
+from flask_jwt_extended import JWTManager, create_access_token, create_refresh_token, get_jwt_identity, jwt_required
 from http import HTTPStatus
 
 from config import Config
@@ -60,12 +60,25 @@ def make_shell_contex():
 
 
 
+# MARK: TOKENS
+
+@app.route("/refresh", methods=["POST"])
+@jwt_required(refresh=True)
+def refresh():
+    identity = get_jwt_identity()
+    access_token = create_access_token(identity=identity)
+    return jsonify(access_token=access_token)
+
+
+
 # MARK: FRONTEND
 
 @app.route("/", methods=["GET", "POST"])
 def index():
    """ Raíz del sitio """
    return render_template("index.html")
+
+
 
 @app.route("/admin", methods=["GET", "POST"])
 def admin_home():
