@@ -1,0 +1,18 @@
+<div class="card mb-4">
+    <div class="card-header">
+        <h5 class="card-title">{{ empleado.nombre }}</h5>
+    </div>
+    <div class="card-body">
+        <p><strong>Teléfono:</strong> {{ empleado.telefono }}</p>
+        <p><strong>NIF:</strong> {{ empleado.nif }}</p>
+        <p><strong>Username:</strong> {{ empleado.username }}</p>
+
+        {% if empleado.rol %}
+        <p><strong>Roles:</strong> {{ empleado.rol.nombre }}</p>
+        {% endif %}
+
+        <!-- Aquí puedes agregar botones o acciones adicionales -->
+        <a href="{{ url_for('editar_empleado', id=empleado.id) }}" class="btn btn-warning">Editar</a>
+        <a href="{{ url_for('dardebaja_empleado', id=empleado.id) }}" class="btn btn-danger">Dar de baja</a>
+    </div>
+</div>
