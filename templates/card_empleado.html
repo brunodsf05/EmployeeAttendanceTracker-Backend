@@ -12,7 +12,7 @@
         {% endif %}
 
         <!-- Aquí puedes agregar botones o acciones adicionales -->
-        <a href="{{ url_for('editar_empleado', id=empleado.id) }}" class="btn btn-warning">Editar</a>
-        <a href="{{ url_for('dardebaja_empleado', id=empleado.id) }}" class="btn btn-danger">Dar de baja</a>
+        <a href="{{ url_for('admin_editar_empleado', id=empleado.id) }}" class="btn btn-warning">Editar</a>
+        <a href="{{ url_for('admin_dardebaja_empleado', id=empleado.id) }}" class="btn btn-danger">Dar de baja</a>
     </div>
 </div>
