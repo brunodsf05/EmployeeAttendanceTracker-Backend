@@ -62,8 +62,8 @@ def index():
 
 
 
-@app.route("/user/<name>")
-def user(name):
+@app.route("/admin/login")
+def admin_login():
    """ TEMPORAL """
    return render_template("index.html")
 
@@ -71,7 +71,7 @@ def user(name):
 
 @app.route('/logout')
 def close():
-   """ Cerrar sesión """
+   """ TODO: Cerrar sesión """
 
 
 
