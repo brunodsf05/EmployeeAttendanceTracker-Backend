@@ -137,14 +137,9 @@ def admin_empresa():
     if empresa is None:
         return goto_empresa(error="No hay ninguna empresa registrada")
 
-    # Rellenar el formulario con los datos de la empresa
-    form.nombre.data = empresa.nombre
-    form.latitud.data = empresa.latitud
-    form.longitud.data = empresa.longitud
-    form.radio.data = empresa.radio
-
-    # Actualizar los datos de la empresa
+    # ¿Leemos o actualizamos?
     if form.validate_on_submit():
+        # Actualizar los datos de la empresa
         empresa.nombre = form.nombre.data
         empresa.latitud = form.latitud.data
         empresa.longitud = form.longitud.data
@@ -152,6 +147,12 @@ def admin_empresa():
         empresa.save()
 
         return goto_empresa(sucess=True)
+    else:
+        # Rellenar el formulario con los datos de la empresa
+        form.nombre.data = empresa.nombre
+        form.latitud.data = empresa.latitud
+        form.longitud.data = empresa.longitud
+        form.radio.data = empresa.radio
 
     return goto_empresa()
 
