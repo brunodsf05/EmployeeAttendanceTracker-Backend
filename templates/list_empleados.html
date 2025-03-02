@@ -8,9 +8,22 @@
     <h1>Empleados</h1>
 </div>
 <div class="container">
-    {% for empleado in empleados %}
-        {% include 'card_empleado.html' %}
-    {% endfor %}
     <a href="{{ url_for('admin_agregar_empleado') }}" class="btn btn-primary">Agregar empleado</a>
+    <h2>Empleados activos</h2>
+    <table>
+        <tr>
+            <th>Id</th>
+            <th>NIF</th>
+            <th>Nombre</th>
+            <th>Telefono</th>
+            <th>Username</th>
+            <th>Rol</th>
+            <th>Editar</th>
+            <th>Eliminar</th>
+        </tr>
+        {% for empleado in empleados %}
+            {% include 'card_empleado.html' %}
+        {% endfor %}
+    </table>
 </div>
 {% endblock %}
