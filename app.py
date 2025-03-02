@@ -82,10 +82,13 @@ def admin_login():
         username = form.username.data
         password = form.password.data
         user = Trabajador.get_by_username(username)
-
+        
         # Validaciones
         if user is None:
             return goto_login("Usuario no encontrado")
+
+        if user.rol.nombre != "Administrador":
+            return goto_login("No tienes permisos de administrador")
 
         if not user.check_password(password):
             return goto_login("Contraseña incorrecta")
