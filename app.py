@@ -121,6 +121,9 @@ def admin_login():
 
 @app.route("/admin/empresa", methods=["GET", "POST"])
 def admin_empresa():
+    if not is_authenticated():
+        return redirect(url_for("page_not_found"))
+
     """ Interfaz para configurar los datos de la empresa """
     form = EmpresaForm()
 
