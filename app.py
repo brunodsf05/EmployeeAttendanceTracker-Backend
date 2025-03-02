@@ -67,6 +67,11 @@ def index():
    """ Raíz del sitio """
    return render_template("index.html")
 
+@app.route("/admin", methods=["GET", "POST"])
+def admin_home():
+   """ Redirige a la página de inicio del administrador web """
+   return redirect(url_for("index"))
+
 
 
 @app.route("/admin/login", methods=["GET", "POST"])
