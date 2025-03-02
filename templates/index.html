@@ -5,7 +5,15 @@
 
 {% block page_content %}
 <div class="page-header">
-	<h1>Control de Presencia 2025</h1>
-	<sub>Hecho por Bruno Alejandro Di Sabatino Fermi</sub>
+    <h1>Control de Presencia 2025</h1>
+    <sub>Hecho por Bruno Alejandro Di Sabatino Fermi</sub>
+    
+    {% if is_authenticated() %}
+        <p>¡Bienvenido de vuelta {{request.cookies.get('admin_name', 'sin nombre')}}!</p>
+        <p>Ahora puedes leer y modificar los datos de la empresa...</p>
+        {% else %}
+        <p>Vaya, parece ser que aún no has iniciado sesión...</p>
+    {% endif %}
+    
 </div>
 {% endblock %}
