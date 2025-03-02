@@ -133,8 +133,8 @@ def admin_empresa():
 
     if form.validate_on_submit():
         # Buscar la empresa
-        empresa = Empresa.get_all().first()
-        
+        empresa = Empresa.get_first()
+
         # Validaciones
         if empresa is None:
             return goto_empresa("No hay ninguna empresa registrada")

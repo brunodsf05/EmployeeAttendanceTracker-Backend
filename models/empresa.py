@@ -24,6 +24,12 @@ class Empresa(db.Model):
     def get_all(cls):
         return cls.query.all()
 
+    @classmethod
+    def get_first(cls):
+        empresas = cls.get_all()
+
+        return None if len(empresas) == 0 else empresas[0]
+
     def save(self):
         db.session.add(self)
         db.session.commit()
