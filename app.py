@@ -4,12 +4,13 @@ from flask_migrate import Migrate
 from flask_restful import Api
 from flask_jwt_extended import JWTManager, create_access_token, create_refresh_token
 from http import HTTPStatus
+from datetime import datetime
 
 from config import Config
 from extensions import db
 from models import Dia, Empresa, FranjaHoraria, Horario, Incidencia, Receta, Registro, Rol, Trabajador
 from resources import LoginResource, FichajeResource
-from web import LoginForm, is_authenticated
+from web import LoginForm, EmpresaForm, is_authenticated
 
 
 
@@ -121,7 +122,29 @@ def admin_login():
 @app.route("/admin/empresa", methods=["GET", "POST"])
 def admin_empresa():
     """ Interfaz para configurar los datos de la empresa """
-    return redirect(url_for("index"))
+    form = EmpresaForm()
+
+    def goto_empresa(error="", sucess=False):
+        time = datetime.now().isoformat() if sucess else None
+        return render_template("empresa.html", form=form, error=error, latest_time=time)
+
+    if form.validate_on_submit():
+        # Buscar la empresa
+        empresa = Empresa.get_all().first()
+        
+        # Validaciones
+        if empresa is None:
+            return goto_empresa("No hay ninguna empresa registrada")
+
+        empresa.nombre = form.nombre.data
+        empresa.latitud = form.latitud.data
+        empresa.longitud = form.longitud.data
+        empresa.radio = form.radio.data
+        empresa.save()
+
+        return goto_empresa(sucess=True)
+        
+    return goto_empresa()
 
 
 
