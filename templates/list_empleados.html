@@ -8,7 +8,9 @@
     <h1>Empleados</h1>
 </div>
 <div class="container">
-        <p>a</p>
+    {% for empleado in empleados %}
+        <p>{{empleado.nombre}}</p>
+    {% endfor %}
     <a href="{{ url_for('admin_agregar_empleado') }}" class="btn btn-primary">Agregar empleado</a>
 </div>
 {% endblock %}

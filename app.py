@@ -187,7 +187,7 @@ def admin_editar_empleado():
 
 
 
-@app.route("/admin/empleado/<id>", methods=["GET", "POST"])
+@app.route("/admin/empleado", methods=["GET", "POST"])
 def admin_agregar_empleado():
     """ Interfaz para añadir a un empleado """
     if not is_authenticated():
