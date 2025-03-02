@@ -170,7 +170,7 @@ def admin_listar_empleados():
     if not is_authenticated():
         return try_to_regain_session()
 
-    return redirect(url_for("index"))
+    return render_template('index.html', empleados=Trabajador.get_all())
 
 
 
