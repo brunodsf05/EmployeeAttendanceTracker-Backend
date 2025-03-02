@@ -176,8 +176,8 @@ def admin_listar_empleados():
 
 
 
-@app.route("/admin/empleado/editar/<id>", methods=["GET", "POST"])
-def admin_editar_empleado():
+@app.route("/admin/empleado/editar/<id:int>", methods=["GET", "POST"])
+def admin_editar_empleado(id):
     """ Interfaz para modificar a un empleado """
     if not is_authenticated():
         return try_to_regain_session()
@@ -196,8 +196,8 @@ def admin_agregar_empleado():
 
 
 
-@app.route("/admin/empleado/dardebaja/<id>", methods=["GET", "POST"])
-def admin_dardebaja_empleado():
+@app.route("/admin/empleado/dardebaja/<id:int>", methods=["GET", "POST"])
+def admin_dardebaja_empleado(id):
     """ Interfaz para dar de baja a un empleado """
     if not is_authenticated():
         return try_to_regain_session()
