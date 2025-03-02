@@ -24,18 +24,18 @@
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li><a href="{{ url_for('index') }}">Inicio</a></li>
+                <li><a href="{{ url_for('index') }}">🏠 Inicio</a></li>
                 {% if is_authenticated() %}
-                    <li><a href="{{ url_for('admin_empresa') }}">Empresa</a></li>
-                    <li><a href="{{ url_for('admin_empleados') }}">Empleados</a></li>
+                    <li><a href="{{ url_for('admin_empresa') }}">🏢 Empresa</a></li>
+                    <li><a href="{{ url_for('admin_empleados') }}">🧑‍💼 Empleados</a></li>
                 {% endif %}
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 {% if is_authenticated() %}
-                    <li><a href="{{ url_for('close') }}">{{request.cookies.get('admin_name', 'Administrador')}}</a></li>
-                    <li><a href="{{ url_for('close') }}" class="closeItem">Cerrar sesión</a></li>
+                    <li><a href="{{ url_for('close') }}">😎 {{request.cookies.get('admin_name', 'Administrador')}}</a></li>
+                    <li><a href="{{ url_for('close') }}" class="closeItem">🔓 Cerrar sesión</a></li>
                 {% else %}
-                    <li><a href="{{ url_for('admin_login') }}" class="closeItem">Iniciar sesión</a></li>
+                    <li><a href="{{ url_for('admin_login') }}" class="closeItem">🔒 Iniciar sesión</a></li>
                 {% endif %}
             </ul>
         </div>
