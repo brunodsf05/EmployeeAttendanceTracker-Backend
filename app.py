@@ -1,9 +1,8 @@
-from flask import Flask, request, make_response, render_template, redirect, url_for, jsonify
+from flask import Flask, render_template, redirect, url_for
 from flask_bootstrap import Bootstrap
 from flask_migrate import Migrate
 from flask_restful import Api
-from flask_jwt_extended import JWTManager, create_access_token, create_refresh_token, get_jwt_identity, jwt_required
-from flask_jwt_extended import exceptions
+from flask_jwt_extended import JWTManager, create_access_token, create_refresh_token
 from http import HTTPStatus
 
 from config import Config
@@ -61,42 +60,12 @@ def make_shell_contex():
 
 
 
-# MARK: TOKENS
-
-@app.route("/refresh", methods=["POST"])
-@jwt_required(refresh=True)
-def refresh():
-    identity = get_jwt_identity()
-    access_token = create_access_token(identity=identity)
-    return jsonify(access_token=access_token)
-
-
-
 # MARK: FRONTEND
 
 @app.route("/", methods=["GET", "POST"])
 def index():
-    """ Raíz del sitio. También verifica si el usuario está autenticado y regenera el token si es necesario """
-    if not is_authenticated():  # Si el usuario no está autenticado
-        refresh_token = request.cookies.get("refresh_token")
-
-        if refresh_token:
-            try:
-                # Intentar generar un nuevo access_token utilizando el refresh_token
-                identity = get_jwt_identity()  # Obtener identidad desde el refresh_token
-                access_token = create_access_token(identity=identity)
-
-                # Crear una respuesta con el nuevo access_token
-                response = make_response(render_template("index.html"))
-                response.set_cookie("access_token", access_token, httponly=True)
-                return response
-
-            except exceptions.JWTExtendedException:
-                # Si el refresh_token es inválido o ha expirado, no hacer nada
-                return render_template("index.html")
-    
-    # Si está autenticado o después de regenerar el token, solo renderizar la página de inicio
-    return render_template("index.html")
+   """ Raíz del sitio """
+   return render_template("index.html")
 
 
 
