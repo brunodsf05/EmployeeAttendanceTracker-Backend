@@ -131,14 +131,20 @@ def admin_empresa():
         time = datetime.now().isoformat() if sucess else ""
         return render_template("empresa.html", form=form, error=error, latest_time=time)
 
+    # Manejar existencia de la empresa
+    empresa = Empresa.get_first()
+
+    if empresa is None:
+        return goto_empresa(error="No hay ninguna empresa registrada")
+
+    # Rellenar el formulario con los datos de la empresa
+    form.nombre.data = empresa.nombre
+    form.latitud.data = empresa.latitud
+    form.longitud.data = empresa.longitud
+    form.radio.data = empresa.radio
+
+    # Actualizar los datos de la empresa
     if form.validate_on_submit():
-        # Buscar la empresa
-        empresa = Empresa.get_first()
-
-        # Validaciones
-        if empresa is None:
-            return goto_empresa("No hay ninguna empresa registrada")
-
         empresa.nombre = form.nombre.data
         empresa.latitud = form.latitud.data
         empresa.longitud = form.longitud.data
