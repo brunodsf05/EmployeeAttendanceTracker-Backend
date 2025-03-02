@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect, url_for
 from flask_bootstrap import Bootstrap
 from flask_migrate import Migrate
 from flask_restful import Api
@@ -9,6 +9,7 @@ from config import Config
 from extensions import db
 from models import Dia, Empresa, FranjaHoraria, Horario, Incidencia, Receta, Registro, Rol, Trabajador
 from resources import LoginResource, FichajeResource
+from web import LoginForm
 
 
 
@@ -62,10 +63,16 @@ def index():
 
 
 
-@app.route("/admin/login")
+@app.route("/admin/login", methods=["GET", "POST"])
 def admin_login():
-   """ TEMPORAL """
-   return render_template("index.html")
+    form = LoginForm()
+
+    if form.validate_on_submit():
+        # Aquí iría la lógica de autenticación
+        # Por ahora, solo hacemos una redirección de ejemplo
+        return redirect(url_for('index'))
+
+    return render_template("login.html", form=form)
 
 
 
