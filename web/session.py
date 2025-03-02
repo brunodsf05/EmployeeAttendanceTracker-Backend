@@ -18,7 +18,7 @@ def is_authenticated():
 
         if refresh_token:
             try:
-                identity = get_jwt_identity()  # Obtiene el usuario asociado al refresh token
+                identity = decode_token(refresh_token)["sub"]  # Obtiene el usuario asociado al refresh token
                 new_access_token = create_access_token(identity=identity)
 
                 # Crear una respuesta con la nueva cookie
