@@ -182,7 +182,40 @@ def admin_editar_empleado(id):
     if not is_authenticated():
         return try_to_regain_session()
 
-    return redirect(url_for("index"))
+    form = TrabajadorForm(password_required=False)
+
+    def goto_editar(error="", sucess=False):
+        time = datetime.now().isoformat() if sucess else ""
+        return render_template("edit_trabajador.html", form=form, error=error, latest_time=time, id=id)
+
+    # Manejar existencia del empleado
+    trabajador = Trabajador.get_by_id(id)
+
+    if trabajador is None:
+        return goto_editar(error="No hay ningún trabajador registrado con ese ID")
+
+    # ¿Leemos o actualizamos?
+    if form.validate_on_submit():
+        # Actualizar los datos del trabajador
+        trabajador.nif = form.nif.data
+        trabajador.nombre = form.nombre.data
+        trabajador.telefono = form.telefono.data
+        trabajador.username = form.username.data
+
+        if form.password.data != "":
+            trabajador.password = form.password.data
+
+        trabajador.save()
+
+        return goto_editar(sucess=True)
+    else:
+        # Rellenar el formulario con los datos del trabajador
+        form.nif.data = trabajador.nif
+        form.nombre.data = trabajador.nombre
+        form.telefono.data = trabajador.telefono
+        form.username.data = trabajador.username
+
+    return goto_editar()
 
 
 
