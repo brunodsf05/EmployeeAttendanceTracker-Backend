@@ -15,7 +15,7 @@ def validar_longitud(form, field):
 
 
 class EmpresaForm(FlaskForm):
-    """Formulario para modificar los datos de una empresa. Por defecto viene con los campos ya rellenos, listos para ser cambiados."""
+    """Formulario para modificar los datos de una empresa."""
 
     nombre = StringField("Nombre de la empresa", validators=[InputRequired()])
     latitud = FloatField("Latitud", validators=[InputRequired(), validar_latitud])
