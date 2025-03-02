@@ -159,8 +159,32 @@ def admin_empresa():
 
 
 @app.route("/admin/empleados", methods=["GET", "POST"])
-def admin_empleados():
-    """ Interfaz para configurar los datos de la empresa """
+def admin_listar_empleados():
+    """ Interfaz para listar a los empleados """
+    if not is_authenticated():
+        return redirect(url_for("page_not_found"))
+
+    return redirect(url_for("index"))
+
+
+
+@app.route("/admin/empleado/editar/<id>", methods=["GET", "POST"])
+def admin_editar_empleado():
+    """ Interfaz para modificar a un empleado """
+    return redirect(url_for("index"))
+
+
+
+@app.route("/admin/empleado/<id>", methods=["GET", "POST"])
+def admin_agregar_empleado():
+    """ Interfaz para añadir a un empleado """
+    return redirect(url_for("index"))
+
+
+
+@app.route("/admin/empleado/dardebaja/<id>", methods=["GET", "POST"])
+def admin_dardebaja_empleado():
+    """ Interfaz para dar de baja a un empleado """
     return redirect(url_for("index"))
 
 
