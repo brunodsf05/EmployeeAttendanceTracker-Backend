@@ -1,7 +1,8 @@
-from flask import Flask
+from flask import Flask, render_template
 from flask_migrate import Migrate
 from flask_restful import Api
 from flask_jwt_extended import JWTManager
+from http import HTTPStatus
 
 from config import Config
 from extensions import db
@@ -53,9 +54,17 @@ def make_shell_contex():
 
 # MARK: FRONTEND
 
-@app.route("/")
+@app.route("/", methods=['GET', 'POST'])
 def index():
-    return "ControlDePresencia"
+   """ Raíz del sitio """
+   return render_template("index.html")
+
+
+
+@app.errorhandler(HTTPStatus.NOT_FOUND)
+def page_not_found(e):
+   """ La url no existe en el sistema """
+   return render_template("404.html"), HTTPStatus.NOT_FOUND
 
 
 
