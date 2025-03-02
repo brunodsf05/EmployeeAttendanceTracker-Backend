@@ -17,4 +17,7 @@ def is_authenticated():
         # Si hay cualquier error con el token, consideramos que no está autenticado
         pass
 
+    except Exception as e:
+        pass
+
     return False
