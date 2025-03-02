@@ -1,4 +1,5 @@
-from .login import LoginForm, is_authenticated
+from .login import LoginForm
+from .session import is_authenticated
 
 
 
