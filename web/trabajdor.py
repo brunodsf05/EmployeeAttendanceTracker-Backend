@@ -7,9 +7,9 @@ from wtforms.validators import InputRequired, Length, Optional
 class TrabajadorForm(FlaskForm):
     """Formulario que recibe los datos de un trabajador. Puede ser configurado para requerir o no la contraseña."""
 
-    nif = StringField("NIF", validators=[InputRequired()])
-    nombre = StringField("Nombre", validators=[InputRequired()])
-    telefono = StringField("Teléfono", validators=[InputRequired()])
+    nif = StringField("NIF", validators=[InputRequired(), Length(min=9, max=9)])
+    nombre = StringField("Nombre", validators=[InputRequired(), Length(min=1, max=255)])
+    telefono = StringField("Teléfono", validators=[InputRequired(), Length(min=9, max=9)])
     username = StringField("Username", validators=[InputRequired(), Length(min=3, max=30)])
 
     # Contraseña opcional o requerida dependiendo de la variable password_required
