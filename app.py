@@ -2,7 +2,7 @@ from flask import Flask, render_template, redirect, url_for
 from flask_bootstrap import Bootstrap
 from flask_migrate import Migrate
 from flask_restful import Api
-from flask_jwt_extended import JWTManager, create_access_token
+from flask_jwt_extended import JWTManager, create_access_token, create_refresh_token
 from http import HTTPStatus
 
 from config import Config
@@ -95,10 +95,14 @@ def admin_login():
 
         # Crear token JWT
         access_token = create_access_token(identity=username)
+        refresh_token = create_refresh_token(identity=username)
+
         
         # Almacenarlo en una cookie
         response = redirect(url_for("index"))
         response.set_cookie("access_token", access_token, httponly=True)
+        response.set_cookie("refresh_token", refresh_token, httponly=True)
+
         response.set_cookie("admin_name", user.nombre, httponly=True)
 
         return response
@@ -126,6 +130,7 @@ def close():
     """ Cerrar la sesión del panel de control eliminando la cookie """
     response = redirect(url_for("index"))
     response.delete_cookie("access_token")
+    response.delete_cookie("refresh_token")
     response.delete_cookie("admin_name")
     return response
 
