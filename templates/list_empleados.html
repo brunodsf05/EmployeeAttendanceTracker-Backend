@@ -5,19 +5,11 @@
 
 {% block page_content %}
 <div class="page-header">
-    <h1>Control de Presencia 2025</h1>
-    <sub>Hecho por Bruno Alejandro Di Sabatino Fermi</sub>
-    
-    
+    <h1>Empleados</h1>
 </div>
 <div class="container">
-    <!-- Necesito que crees un html externo llamado card_empleado -->
-    <!-- Este html debe contener un card de bootstrap con la información de un empleado -->
-    <!-- Debes importar este html aquí y mostrarlo por cada empleado en la lista -->
-    <!-- Puedes usar el siguiente código para importar el html -->
-    <!-- {% include 'card_empleado.html' %} -->
     {% for empleado in empleados %}
-        {% include 'card_empleado.html' %}
+        <p>{{empleado.nombre}}</p>
     {% endfor %}
     <a href="{{ url_for('admin_agregar_empleado') }}" class="btn btn-primary">Agregar empleado</a>
 </div>
