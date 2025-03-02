@@ -65,6 +65,7 @@ def index():
 
 @app.route("/admin/login", methods=["GET", "POST"])
 def admin_login():
+    """ Inicio de sesión solo para administradores """
     form = LoginForm()
 
     def goto_login(error=""):
@@ -98,7 +99,10 @@ def admin_login():
 
 @app.route('/logout')
 def close():
-   """ TODO: Cerrar sesión """
+    """ Cerrar la sesión del panel de control eliminando la cookie """
+    response = redirect(url_for("index"))
+    response.delete_cookie("access_token")
+    return response
 
 
 
