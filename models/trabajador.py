@@ -54,6 +54,14 @@ class Trabajador(db.Model):
     def get_all(cls):
         return cls.query.all()
 
+    @classmethod
+    def get_all_activos(cls):
+        return cls.query.all().filter_by(debaja=False)
+
+    @classmethod
+    def get_all_debaja(cls):
+        return cls.query.all().filter_by(debaja=True)
+
     def save(self):
         db.session.add(self)
         db.session.commit()
