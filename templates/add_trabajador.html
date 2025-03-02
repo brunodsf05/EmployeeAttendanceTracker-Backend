@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}Admin - Agregar empleado{% endblock %}
+
+{% block page_content %}
+<div class="container">
+    <div class="row">
+        <h1>Trabajador</h1>
+        <p>Añade uno con los siguientes datos:</p>
+        
+        {% if latest_time %}<div class="alert alert-success">Última actualización: {{ latest_time }}</div>{% endif %}
+        {% if error %}<div class="alert alert-danger">{{ error }}</div>{% endif %}
+        
+        {{ wtf.quick_form(form) }}
+    </div>
+</div>
+{% endblock %}

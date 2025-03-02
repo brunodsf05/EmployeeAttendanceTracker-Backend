@@ -10,7 +10,7 @@ from config import Config
 from extensions import db
 from models import Dia, Empresa, FranjaHoraria, Horario, Incidencia, Receta, Registro, Rol, Trabajador
 from resources import LoginResource, FichajeResource
-from web import LoginForm, EmpresaForm, is_authenticated
+from web import LoginForm, EmpresaForm, TrabajadorForm, is_authenticated
 
 
 
@@ -127,10 +127,10 @@ def admin_login():
 
 @app.route("/admin/empresa", methods=["GET", "POST"])
 def admin_empresa():
+    """ Interfaz para configurar los datos de la empresa """
     if not is_authenticated():
         return try_to_regain_session()
 
-    """ Interfaz para configurar los datos de la empresa """
     form = EmpresaForm()
 
     def goto_empresa(error="", sucess=False):
@@ -186,13 +186,35 @@ def admin_editar_empleado(id):
 
 
 
-@app.route("/admin/empleado", methods=["GET", "POST"])
+@app.route("/admin/empleado/agregar", methods=["GET", "POST"])
 def admin_agregar_empleado():
     """ Interfaz para añadir a un empleado """
     if not is_authenticated():
         return try_to_regain_session()
 
-    return redirect(url_for("index"))
+    form = TrabajadorForm(password_required=True)
+
+    def goto_agregar(error="", sucess=False):
+        time = datetime.now().isoformat() if sucess else ""
+        return render_template("empresa.html", form=form, error=error, latest_time=time)
+
+    if form.validate_on_submit():
+        # Creamos al trabajador
+        Trabajador(
+            nif=form.nif.data,
+            nombre=form.nombre.data,
+            telefono=form.telefono.data,
+            username=form.username.data,
+            password=form.password.data,
+            # Cutre 😎
+            rol=Rol.query.filter_by(nombre="Trabajador").first(),
+            empresa=Empresa.get_first(),
+            horario=Horario.get_all()[0]
+        ).save()
+
+        return goto_agregar(sucess=True)
+
+    return goto_agregar()
 
 
 
