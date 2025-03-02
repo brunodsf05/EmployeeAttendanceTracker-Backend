@@ -170,9 +170,10 @@ def admin_listar_empleados():
     if not is_authenticated():
         return try_to_regain_session()
 
-    empleados = Trabajador.get_all()
+    empleados_activos = Trabajador.get_all_activos()
+    empleados_debaja = Trabajador.get_all_debaja()
 
-    return render_template("list_empleados.html", empleados=empleados)
+    return render_template("list_empleados.html", empleados_activos=empleados_activos, empleados_debaja=empleados_debaja)
 
 
 

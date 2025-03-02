@@ -1,0 +1,30 @@
+<div class="table-responsive">
+    <table class="table table-striped table-bordered table-hover w-100">
+        <thead class="table-dark">
+            <tr>
+                <th>Id</th>
+                <th>NIF</th>
+                <th>Nombre</th>
+                <th>Teléfono</th>
+                <th>Username</th>
+                <th>Rol</th>
+                <th class="text-center">Editar</th>
+                <th class="text-center">Eliminar</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for empleado in empleados %}
+                <tr>
+                    <td>{{ empleado.id }}</td>
+                    <td>{{ empleado.nif }}</td>
+                    <td>{{ empleado.nombre }}</td>
+                    <td>{{ empleado.telefono }}</td>
+                    <td>{{ empleado.username }}</td>
+                    <td>{{ empleado.rol.nombre }}</td>
+                    <td><a href="{{ url_for('admin_editar_empleado', id=empleado.id) }}" class="btn btn-warning">Editar</a></td>
+                    <td><a href="{{ url_for('admin_dardebaja_empleado', id=empleado.id) }}" class="btn btn-danger">Dar de baja</a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>

@@ -9,27 +9,25 @@
 </div>
 <div class="container">
     <a href="{{ url_for('admin_agregar_empleado') }}" class="btn btn-primary">Agregar empleado</a>
-    <h2>Empleados activos</h2>
-    <div class="table-responsive">
-        <table class="table table-striped table-bordered table-hover w-100">
-            <thead class="table-dark">
-                <tr>
-                    <th>Id</th>
-                    <th>NIF</th>
-                    <th>Nombre</th>
-                    <th>Teléfono</th>
-                    <th>Username</th>
-                    <th>Rol</th>
-                    <th class="text-center">Editar</th>
-                    <th class="text-center">Eliminar</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for empleado in empleados %}
-                    {% include 'row_empleado.html' %}
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
+
+    {{% if len(empleados_activos) == 0 and len(empleados_debaja) == 0 %}}
+        <div class="alert alert-info">No hay empleados</div>
+    {% else %}
+    
+        <h2>Activos</h2>
+        {{% if len(empleados_activos) == 0 %}}
+            <div class="alert alert-info">No hay empleados activos</div>
+        {% else %}
+            {% include "table_empleados.html" with empleados=empleados_activos %}
+        {% endif %}
+        
+        <h2>De baja</h2>
+        {{% if len(empleados_activos) == 0 %}}
+            <div class="alert alert-info">No hay empleados de baja</div>
+        {% else %}
+            {% include "table_empleados.html" with empleados=empleados_debaja %}
+        {% endif %}
+
+    {% endif %}
 </div>
 {% endblock %}
