@@ -9,7 +9,7 @@
 </div>
 <div class="container">
     {% for empleado in empleados %}
-        <p>a</p>
+        <p>{{empleado}}</p>
     {% endfor %}
     <a href="{{ url_for('admin_agregar_empleado') }}" class="btn btn-primary">Agregar empleado</a>
 </div>
