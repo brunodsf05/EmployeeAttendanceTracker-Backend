@@ -74,7 +74,7 @@ def admin_login():
         # Buscar al administrador
         username = form.username.data
         password = form.password.data
-        user = Trabajador.query.filter_by(nombre_usuario=username).first()
+        user = Trabajador.get_by_username(username)
 
         # Validaciones
         if user is None:
