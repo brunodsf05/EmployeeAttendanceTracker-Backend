@@ -18,14 +18,16 @@
         {% if len(empleados_activos) == 0 %}
             <div class="alert alert-info">No hay empleados activos</div>
         {% else %}
-            {% include "table_empleados.html" with empleados=empleados_activos %}
+            {% set empleados = empleados_activos %}
+            {% include "table_empleados.html" %}
         {% endif %}
         
         <h2>De baja</h2>
         {% if len(empleados_debaja) == 0 %}
             <div class="alert alert-info">No hay empleados de baja</div>
         {% else %}
-            {% include "table_empleados.html" with empleados=empleados_debaja %}
+            {% set empleados = empleados_debaja %}
+            {% include "table_empleados.html" %}
         {% endif %}
 
     {% endif %}
