@@ -11,7 +11,7 @@ from extensions import db
 from models import Dia, Empresa, FranjaHoraria, Horario, Incidencia, Receta, Registro, Rol, Trabajador
 from resources import LoginResource, FichajeResource
 from web import LoginForm, EmpresaForm, TrabajadorForm, is_authenticated
-from flask_jwt_extended import verify_jwt_in_request, get_jwt_identity, decode_token, create_access_token, create_refresh_token
+from flask_jwt_extended import decode_token, create_access_token, create_refresh_token
 from flask import request, redirect, url_for
 
 
@@ -66,24 +66,29 @@ def make_shell_contex():
 # MARK: SESIÓN DE ADMINISTRADOR
 
 def try_to_regain_session():
-    """ Intenta recuperar la sesión del administrador a partir de las cookies. Si no puede, redirige a la página de error """
+    """ 
+    Intenta recuperar la sesión del administrador a partir del refresh_token en cookies.
+    Si no puede, redirige a la página de error.
+    """
+    
     refresh_token = request.cookies.get("refresh_token")
 
     if not refresh_token:
         return redirect(url_for("page_not_found"))
 
     try:
-        # Verificar si el refresh token es válido
-        verify_jwt_in_request(optional=True)  # Esto puede ayudar a evitar errores en la sesión
-        
+        # Decodificar el refresh_token y obtener la identidad
         decoded_token = decode_token(refresh_token)
-        identity = decoded_token["sub"]
+        identity = decoded_token.get("sub")
+
+        if not identity:
+            return redirect(url_for("page_not_found"))
 
         # Crear nuevos tokens
         new_access_token = create_access_token(identity=identity, fresh=False)
         new_refresh_token = create_refresh_token(identity=identity)
 
-        # Crear respuesta y actualizar cookies
+        # Crear la respuesta y actualizar las cookies
         response = redirect(url_for("index"))
         response.set_cookie("access_token", new_access_token, httponly=True, samesite="Lax")
         response.set_cookie("refresh_token", new_refresh_token, httponly=True, samesite="Lax")
@@ -91,6 +96,7 @@ def try_to_regain_session():
         return response
 
     except Exception as e:
+        print(f"Error al regenerar sesión: {e}")  # Debugging
         return redirect(url_for("page_not_found"))
 
 
