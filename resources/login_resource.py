@@ -5,7 +5,7 @@ from http import HTTPStatus
 
 
 from models import Trabajador
-
+from mytime import MyTime
 
 
 class LoginResource(Resource):
@@ -42,4 +42,4 @@ class LoginResource(Resource):
         access_token = create_access_token(identity=username)
         refresh_token = create_refresh_token(identity=username)
 
-        return {"success": True, "access_token": access_token, "refresh_token": refresh_token}, HTTPStatus.OK
+        return {"success": True, "access_token": access_token, "refresh_token": refresh_token, "debug": MyTime.get().isoformat()}, HTTPStatus.OK

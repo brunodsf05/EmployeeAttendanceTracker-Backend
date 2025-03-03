@@ -7,6 +7,7 @@ from enum import Enum
 from datetime import datetime
 
 from models import Registro, Trabajador
+from mytime import MyTime
 
 
 
@@ -91,7 +92,7 @@ class FichajeResource(Resource):
             return {"error": "horarionotfound"}, HTTPStatus.NOT_FOUND
 
         # Conseguir accion
-        tiempo_actual = datetime.now()
+        tiempo_actual = MyTime.get()
         accion = AccionesRegistro.get_from_trabajador(trabajador, tiempo_actual)
 
         # Conseguir horas
@@ -144,7 +145,7 @@ class FichajeResource(Resource):
         is_inside_empresa = trabajador.empresa.is_inside(user_latitude, user_longitude)
 
         # Conseguir accion
-        tiempo_actual = datetime.now()
+        tiempo_actual = MyTime.get()
         accion = AccionesRegistro.get_from_trabajador(trabajador, tiempo_actual)
 
         # Manejar acción y ubicación
