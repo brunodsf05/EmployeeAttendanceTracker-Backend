@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 
 
 
@@ -11,7 +11,7 @@ class MyTime:
     def get(cls) -> datetime:
         if cls._use_now or cls._custom_datetime is None:
             now = datetime.now()
-            now.hour += 1 # Añadimos una hora para que coincida con la hora de España
+            now.hour += timedelta(hours=1) # Añadimos una hora para que coincida con la hora de España
             return now
 
         return cls._custom_datetime
