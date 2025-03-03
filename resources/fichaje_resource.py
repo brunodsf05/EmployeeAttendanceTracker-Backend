@@ -55,14 +55,11 @@ class AccionesRegistro(Enum):
         registro = Registro.query.filter_by(trabajador_id=trabajador.id, fecha=tiempo.date()).first()
 
         # Todavía no se registró la entrada
-        if registro is None:
+        if registro is None or registro.hora_entrada is None:
             if es_hora_laboral:
                 return AccionesRegistro.START
             else:
                 return AccionesRegistro.NOTIFY_AUSENCE
-
-        if registro.hora_entrada is None:
-            return AccionesRegistro.START
 
         # Todavía no se registró la salida
         if registro.hora_salida is None:
