@@ -10,7 +10,10 @@ class MyTime:
     @classmethod
     def get(cls) -> datetime:
         if cls._use_now or cls._custom_datetime is None:
-            return datetime.now()
+            now = datetime.now()
+            now.hour += 1 # Añadimos una hora para que coincida con la hora de España
+            return now
+
         return cls._custom_datetime
     
     @classmethod
