@@ -66,27 +66,33 @@ def make_shell_contex():
 # MARK: SESIÓN DE ADMINISTRADOR
 
 def try_to_regain_session():
-    """ Intenta recuperar la sesión del administrador a partir de las cookies. Si no puede, te lanza a la página de error """
-    refresh_token = request.cookies.get('refresh_token')
+    """ Intenta recuperar la sesión del administrador a partir de las cookies. Si no puede, redirige a la página de error """
+    refresh_token = request.cookies.get("refresh_token")
 
     if not refresh_token:
         return redirect(url_for("page_not_found"))
 
     try:
+        # Verificar si el refresh token es válido
+        verify_jwt_in_request(optional=True)  # Esto puede ayudar a evitar errores en la sesión
+        
         decoded_token = decode_token(refresh_token)
-        identity = decoded_token['sub']
-        new_access_token = create_access_token(identity=identity)
+        identity = decoded_token["sub"]
+
+        # Crear nuevos tokens
+        new_access_token = create_access_token(identity=identity, fresh=False)
         new_refresh_token = create_refresh_token(identity=identity)
 
+        # Crear respuesta y actualizar cookies
         response = redirect(url_for("index"))
-        response.set_cookie("access_token", new_access_token, httponly=True)
-        response.set_cookie("refresh_token", new_refresh_token, httponly=True)
+        response.set_cookie("access_token", new_access_token, httponly=True, samesite="Lax")
+        response.set_cookie("refresh_token", new_refresh_token, httponly=True, samesite="Lax")
+
         return response
 
-    except Exception:
-        pass
+    except Exception as e:
+        return redirect(url_for("page_not_found"))
 
-    return redirect(url_for("page_not_found"))
 
 # MARK: FRONTEND
 
