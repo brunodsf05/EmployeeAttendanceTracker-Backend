@@ -89,7 +89,7 @@ def try_to_regain_session():
         new_refresh_token = create_refresh_token(identity=identity)
 
         # Crear la respuesta y actualizar las cookies
-        response = redirect(url_for("index"))
+        response = redirect(url_for("admin_login"))
         response.set_cookie("access_token", new_access_token, httponly=True, samesite="Lax")
         response.set_cookie("refresh_token", new_refresh_token, httponly=True, samesite="Lax")
 
