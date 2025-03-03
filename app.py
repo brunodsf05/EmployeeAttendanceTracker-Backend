@@ -125,7 +125,7 @@ def admin_login():
     form = LoginForm()
 
     def goto_login(error=""):
-        return render_template("login.html", form=form, error=error)
+        return render_template("forms/login.html", form=form, error=error)
 
     if form.validate_on_submit():
         # Buscar al administrador
@@ -171,7 +171,7 @@ def admin_empresa():
 
     def goto_empresa(error="", sucess=False):
         time = datetime.now().isoformat() if sucess else ""
-        return render_template("empresa.html", form=form, error=error, latest_time=time)
+        return render_template("forms/empresa.html", form=form, error=error, latest_time=time)
 
     # Manejar existencia de la empresa
     empresa = Empresa.get_first()
@@ -209,7 +209,7 @@ def admin_listar_empleados():
     empleados_activos = Trabajador.get_all_activos()
     empleados_debaja = Trabajador.get_all_debaja()
 
-    return render_template("list_empleados.html", empleados_activos=empleados_activos, empleados_debaja=empleados_debaja)
+    return render_template("lists/list_empleados.html", empleados_activos=empleados_activos, empleados_debaja=empleados_debaja)
 
 
 
@@ -223,7 +223,7 @@ def admin_editar_empleado(id):
 
     def goto_editar(error="", sucess=False):
         time = datetime.now().isoformat() if sucess else ""
-        return render_template("edit_trabajador.html", form=form, error=error, latest_time=time, id=id)
+        return render_template("forms/edit_trabajador.html", form=form, error=error, latest_time=time, id=id)
 
     # Manejar existencia del empleado
     trabajador = Trabajador.get_by_id(id)
@@ -266,7 +266,7 @@ def admin_agregar_empleado():
 
     def goto_agregar(error="", sucess=False):
         time = datetime.now().isoformat() if sucess else ""
-        return render_template("empresa.html", form=form, error=error, latest_time=time)
+        return render_template("forms/add_trabajador.html", form=form, error=error, latest_time=time)
 
     if form.validate_on_submit():
         # Creamos al trabajador

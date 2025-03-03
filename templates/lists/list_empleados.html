@@ -19,7 +19,7 @@
             <div class="alert alert-info">No hay empleados activos</div>
         {% else %}
             {% set empleados = empleados_activos %}
-            {% include "table_empleados.html" %}
+            {% include "lists/table_empleados.html" %}
         {% endif %}
         
         <h2>De baja</h2>
@@ -27,7 +27,7 @@
             <div class="alert alert-info">No hay empleados de baja</div>
         {% else %}
             {% set empleados = empleados_debaja %}
-            {% include "table_empleados.html" %}
+            {% include "lists/table_empleados.html" %}
         {% endif %}
 
     {% endif %}
