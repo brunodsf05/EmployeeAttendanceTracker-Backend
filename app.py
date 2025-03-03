@@ -104,8 +104,11 @@ def try_to_regain_session():
 
 @app.route("/", methods=["GET", "POST"])
 def index():
-   """ Raíz del sitio """
-   return render_template("index.html")
+    """ Raíz del sitio """
+    if not is_authenticated():
+        return try_to_regain_session()
+
+    return render_template("index.html")
 
 
 
