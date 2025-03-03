@@ -97,7 +97,11 @@ def try_to_regain_session():
 
     except Exception as e:
         print(f"Error al regenerar sesión: {e}")  # Debugging
-        return redirect(url_for("page_not_found"))
+        response = redirect(url_for("page_not_found"))
+        response.delete_cookie("access_token")
+        response.delete_cookie("refresh_token")
+        response.delete_cookie("admin_name")
+        return response
 
 
 # MARK: FRONTEND
