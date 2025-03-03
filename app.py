@@ -126,6 +126,10 @@ def admin_home():
 @app.route("/admin/login", methods=["GET", "POST"])
 def admin_login():
     """ Inicio de sesión solo para administradores """
+
+    if request.cookies.get("refresh_token") and not is_authenticated():
+        return try_to_regain_session()
+
     form = LoginForm()
 
     def goto_login(error=""):
