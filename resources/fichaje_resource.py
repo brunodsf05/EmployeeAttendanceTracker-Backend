@@ -157,14 +157,14 @@ class FichajeResource(Resource):
                 # Registrar entrada
                 registro = Registro(trabajador_id=trabajador.id, fecha=tiempo_actual.date(), hora_entrada=tiempo_actual.time())
                 registro.save()
-                return {"success": True, "message": "Entrada registrada"}, HTTPStatus.OK
+                return {"action": str(AccionesRegistro.WORK)}, HTTPStatus.OK
             
             case AccionesRegistro.EXIT:
                 # Registrar salida
                 registro = Registro.query.filter_by(trabajador_id=trabajador.id, fecha=tiempo_actual.date()).first()
                 registro.hora_salida = tiempo_actual.time()
                 registro.save()
-                return {"success": True, "message": "Salida registrada"}, HTTPStatus.OK
+                return {"action": str(AccionesRegistro.RECOVER)}, HTTPStatus.OK
 
         # No se pudo realizar el fichaje
         return {"error": "couldntclock"}, HTTPStatus.METHOD_NOT_ALLOWED
