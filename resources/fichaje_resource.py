@@ -65,9 +65,10 @@ class AccionesRegistro(Enum):
             return AccionesRegistro.START
 
         # Todavía no se registró la salida
+        print(f"La hora de salida es {hora_salida.isoformat()}")
         if registro.hora_salida is None:
             if es_hora_laboral:
-                return AccionesRegistro.EXIT
+                return AccionesRegistro.WAIT
             else:
                 return AccionesRegistro.EXIT
 
