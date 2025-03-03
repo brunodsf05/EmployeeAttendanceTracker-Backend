@@ -11,6 +11,8 @@ from extensions import db
 from models import Dia, Empresa, FranjaHoraria, Horario, Incidencia, Receta, Registro, Rol, Trabajador
 from resources import LoginResource, FichajeResource
 from web import LoginForm, EmpresaForm, TrabajadorForm, is_authenticated
+from flask_jwt_extended import verify_jwt_in_request, get_jwt_identity, decode_token, create_access_token, create_refresh_token
+from flask import request, redirect, url_for
 
 
 
@@ -65,6 +67,25 @@ def make_shell_contex():
 
 def try_to_regain_session():
     """ Intenta recuperar la sesión del administrador a partir de las cookies. Si no puede, te lanza a la página de error """
+    refresh_token = request.cookies.get('refresh_token')
+
+    if not refresh_token:
+        return redirect(url_for("page_not_found"))
+
+    try:
+        decoded_token = decode_token(refresh_token)
+        identity = decoded_token['sub']
+        new_access_token = create_access_token(identity=identity)
+        new_refresh_token = create_refresh_token(identity=identity)
+
+        response = redirect(url_for("index"))
+        response.set_cookie("access_token", new_access_token, httponly=True)
+        response.set_cookie("refresh_token", new_refresh_token, httponly=True)
+        return response
+
+    except Exception:
+        pass
+
     return redirect(url_for("page_not_found"))
 
 # MARK: FRONTEND
