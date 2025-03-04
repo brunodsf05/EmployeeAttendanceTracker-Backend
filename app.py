@@ -5,12 +5,13 @@ from flask_restful import Api
 from flask_jwt_extended import JWTManager, create_access_token, create_refresh_token
 from http import HTTPStatus
 from datetime import datetime
+from mytime import MyTime
 
 from config import Config
 from extensions import db
 from models import Dia, Empresa, FranjaHoraria, Horario, Incidencia, Receta, Registro, Rol, Trabajador
 from resources import LoginResource, FichajeResource
-from web import LoginForm, EmpresaForm, TrabajadorForm, is_authenticated
+from web import LoginForm, EmpresaForm, TrabajadorForm, MyTimeForm, is_authenticated
 from flask_jwt_extended import decode_token, create_access_token, create_refresh_token
 from flask import request, redirect, url_for
 
@@ -52,7 +53,7 @@ bootstrap = Bootstrap(app)
 
 @app.context_processor
 def inject_user():
-    return dict(is_authenticated=is_authenticated)
+    return dict(is_authenticated=is_authenticated, is_time_atomatic=MyTime.is_automatic)
 
 
 # MARK: DEPURACIÓN
@@ -336,6 +337,40 @@ def admin_dardealta_empleado(id):
     trabajador.save()
 
     return redirect(url_for("admin_listar_empleados"))
+
+
+
+@app.route("/admin/empresa", methods=["GET", "POST"])
+def admin_mytime():
+    """ Interfaz para configurar la fecha y horas del servidor """
+    if not is_authenticated():
+        return try_to_regain_session()
+
+    form = MyTimeForm()
+
+    def goto_mytime(error="", sucess=False):
+        time = datetime.now().isoformat() if sucess else ""
+        return render_template("forms/empresa.html", form=form, error=error, latest_time=time)
+
+    # ¿Leemos o actualizamos?
+    if form.validate_on_submit():
+        # Actualizar los datos de la empresa
+        if form.use_now.data:
+            MyTime.set(True)
+
+        else:
+            fecha = form.date.data
+            hora = form.time.data
+            MyTime.set(False, fecha, hora)
+
+        return goto_mytime(sucess=True)
+    else:
+        # Rellenar el formulario con los datos de la empresa
+        form.use_now.data = MyTime.is_automatic()
+        form.date.data = MyTime.get().date()
+        form.time.data = MyTime.get().time()
+
+    return goto_mytime()
 
 
 
