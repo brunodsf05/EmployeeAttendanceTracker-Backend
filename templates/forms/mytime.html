@@ -12,7 +12,7 @@
         {% if latest_time %}<div class="alert alert-success">Última actualización: {{ latest_time }}</div>{% endif %}
         {% if error %}<div class="alert alert-danger">{{ error }}</div>{% endif %}
         
-        {% if not is_time_atomatic %}
+        {% if not is_time_atomatic() %}
             <div class="alert alert-warning">
                 El tiempo del servidor está fijado manualmente y no corresponde a la hora real.<br>
                 Ten cuidado ya que solamente se debería usar con fines de depuración.
