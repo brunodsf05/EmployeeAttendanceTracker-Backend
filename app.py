@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for
+from flask import Flask, render_template, redirect, url_for, abort, make_response
 from flask_bootstrap import Bootstrap
 from flask_migrate import Migrate
 from flask_restful import Api
@@ -74,7 +74,7 @@ def try_to_regain_session():
     refresh_token = request.cookies.get("refresh_token")
 
     if not refresh_token:
-        return redirect(url_for("page_not_found"))
+        return abort(HTTPStatus.NOT_FOUND)
 
     try:
         # Decodificar el refresh_token y obtener la identidad
@@ -96,11 +96,11 @@ def try_to_regain_session():
         return response
 
     except Exception as e:
-        print(f"Error al regenerar sesión: {e}")  # Debugging
-        response = redirect(url_for("page_not_found"))
+        response = make_response("Sesión no encontrada", HTTPStatus.NOT_FOUND)
         response.delete_cookie("access_token")
         response.delete_cookie("refresh_token")
         response.delete_cookie("admin_name")
+
         return response
 
 
