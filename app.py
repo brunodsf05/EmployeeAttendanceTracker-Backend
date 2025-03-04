@@ -65,6 +65,13 @@ def make_shell_contex():
 
 # MARK: SESIÓN DE ADMINISTRADOR
 
+def is_allowed_to_try_to_regain_session():
+    """
+    Verifica si se tiene la cookie de refresh_token y no se está autenticado.
+    Así podemos evitar falsos errores 404 al intentar entrar a index o login por primera vez.
+    """
+    return request.cookies.get("refresh_token") and not is_authenticated()
+
 def try_to_regain_session():
     """ 
     Intenta recuperar la sesión del administrador a partir del refresh_token en cookies.
@@ -74,7 +81,7 @@ def try_to_regain_session():
     refresh_token = request.cookies.get("refresh_token")
 
     if not refresh_token:
-        return redirect(url_for("index"))
+        return abort(HTTPStatus.NOT_FOUND)
 
     try:
         # Decodificar el refresh_token y obtener la identidad
@@ -109,7 +116,7 @@ def try_to_regain_session():
 @app.route("/", methods=["GET", "POST"])
 def index():
     """ Raíz del sitio """
-    if not is_authenticated():
+    if is_allowed_to_try_to_regain_session():
         return try_to_regain_session()
 
     return render_template("index.html")
@@ -127,7 +134,7 @@ def admin_home():
 def admin_login():
     """ Inicio de sesión solo para administradores """
 
-    if request.cookies.get("refresh_token") and not is_authenticated():
+    if is_allowed_to_try_to_regain_session():
         return try_to_regain_session()
 
     form = LoginForm()
