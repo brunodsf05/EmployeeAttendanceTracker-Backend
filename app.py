@@ -74,7 +74,7 @@ def try_to_regain_session():
     refresh_token = request.cookies.get("refresh_token")
 
     if not refresh_token:
-        return abort(HTTPStatus.NOT_FOUND)
+        return redirect(url_for("index"))
 
     try:
         # Decodificar el refresh_token y obtener la identidad
