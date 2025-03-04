@@ -64,7 +64,7 @@ class AccionesRegistro(Enum):
         # Todavía no se registró la salida
         if registro.hora_salida is None:
             if es_hora_laboral:
-                return AccionesRegistro.WAIT
+                return AccionesRegistro.WORK
             else:
                 return AccionesRegistro.EXIT
 
