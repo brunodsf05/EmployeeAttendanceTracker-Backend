@@ -4,7 +4,7 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 from http import HTTPStatus
 
 from enum import Enum
-from datetime import datetime
+from datetime import datetime, time
 
 from models import Registro, Trabajador
 from mytime import MyTime
@@ -101,10 +101,17 @@ class FichajeResource(Resource):
             hora_entrada = franja_horaria.hora_entrada
             hora_salida = franja_horaria.hora_salida
 
+        # Formatear horas
+        if hora_entrada is not None:
+            hora_entrada = hora_entrada.isoformat()
+
+        if hora_salida is not None:
+            hora_salida = hora_salida.isoformat()
+
         return {
             "action": str(accion),
-            "hora_entrada": hora_entrada.isoformat(),
-            "hora_salida": hora_salida.isoformat(),
+            "hora_entrada": hora_entrada,
+            "hora_salida": hora_salida,
             "debug": {
                 "today": tiempo_actual.isoformat(),
                 "horario": {
