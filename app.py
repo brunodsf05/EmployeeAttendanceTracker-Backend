@@ -340,7 +340,7 @@ def admin_dardealta_empleado(id):
 
 
 
-@app.route("/admin/empresa", methods=["GET", "POST"])
+@app.route("/admin/tiempo", methods=["GET", "POST"])
 def admin_mytime():
     """ Interfaz para configurar la fecha y horas del servidor """
     if not is_authenticated():
@@ -350,7 +350,7 @@ def admin_mytime():
 
     def goto_mytime(error="", sucess=False):
         time = datetime.now().isoformat() if sucess else ""
-        return render_template("forms/empresa.html", form=form, error=error, latest_time=time)
+        return render_template("forms/mytime.html", form=form, error=error, latest_time=time)
 
     # ¿Leemos o actualizamos?
     if form.validate_on_submit():
