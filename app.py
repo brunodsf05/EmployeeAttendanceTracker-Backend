@@ -315,6 +315,23 @@ def admin_editar_empleado(id):
 
     # ¿Leemos o actualizamos?
     if form.validate_on_submit():
+        # Manejar errores de datos únicos
+        employee_with_same_username = Trabajador.get_by_username(form.username.data)
+        employee_with_same_nif = Trabajador.get_by_nif(form.nif.data)
+
+        error = ""
+
+        if employee_with_same_username is not None:
+            if employee_with_same_username.id != trabajador.id:
+                error += "Ya existe un trabajador con ese nombre de usuario."
+
+        if employee_with_same_nif > 0 is not None:
+            if employee_with_same_nif.id != trabajador.id:
+                error += "Ya existe un trabajador con ese NIF."
+
+        if error != "":
+            return goto_editar(error)
+
         # Actualizar los datos del trabajador
         trabajador.nif = form.nif.data
         trabajador.nombre = form.nombre.data
