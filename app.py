@@ -90,7 +90,8 @@ def try_to_regain_session():
         identity = decoded_token.get("sub")
 
         if not identity:
-            return redirect(url_for("page_not_found"))
+            return abort(HTTPStatus.NOT_FOUND)
+
 
         # Crear nuevos tokens
         new_access_token = create_access_token(identity=identity, fresh=False)
@@ -313,10 +314,12 @@ def admin_dardebaja_empleado(id):
     trabajador = Trabajador.get_by_id(id)
 
     if trabajador is None:
-        return redirect(url_for("page_not_found"))
+        return abort(HTTPStatus.NOT_FOUND)
+
 
     if trabajador.username == get_authenticated_username():
-        return redirect(url_for("page_not_found"))
+        return abort(HTTPStatus.NOT_FOUND)
+
 
     trabajador.debaja = True
     trabajador.save()
@@ -334,7 +337,8 @@ def admin_dardealta_empleado(id):
     trabajador = Trabajador.get_by_id(id)
 
     if trabajador is None:
-        return redirect(url_for("page_not_found"))
+        return abort(HTTPStatus.NOT_FOUND)
+
 
     trabajador.debaja = False
     trabajador.save()
