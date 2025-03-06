@@ -1,8 +1,8 @@
-from flask import Flask, render_template, redirect, url_for, abort, make_response
+from flask import Flask, render_template, redirect, url_for, abort, make_response, request
 from flask_bootstrap import Bootstrap
 from flask_migrate import Migrate
 from flask_restful import Api
-from flask_jwt_extended import JWTManager, create_access_token, create_refresh_token
+from flask_jwt_extended import JWTManager, create_access_token, create_refresh_token, decode_token
 from http import HTTPStatus
 from datetime import datetime
 from mytime import MyTime
@@ -12,8 +12,6 @@ from extensions import db
 from models import Dia, Empresa, FranjaHoraria, Horario, Incidencia, Receta, Registro, Rol, Trabajador
 from resources import LoginResource, FichajeResource
 from web import LoginForm, EmpresaForm, TrabajadorForm, MyTimeForm, is_authenticated, get_authenticated_username
-from flask_jwt_extended import decode_token, create_access_token, create_refresh_token
-from flask import request, redirect, url_for
 
 
 
