@@ -140,7 +140,7 @@ def page_not_found(e):
 @app.errorhandler(HTTPStatus.FORBIDDEN)
 def forbidden_action(e):
    """ Notifica al administrador de que no puede realizar eso """
-   return render_template("forbidden.html"), HTTPStatus.FORBIDDEN
+   return render_template("error/forbidden.html"), HTTPStatus.FORBIDDEN
 
 
 
