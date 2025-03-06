@@ -321,11 +321,11 @@ def admin_editar_empleado(id):
 
         error = ""
 
-        if employee_with_same_username is not None:
+        if employee_with_same_username != None:
             if employee_with_same_username.id != trabajador.id:
                 error += "Ya existe un trabajador con ese nombre de usuario."
 
-        if employee_with_same_nif > 0 is not None:
+        if employee_with_same_nif != None:
             if employee_with_same_nif.id != trabajador.id:
                 error += "Ya existe un trabajador con ese NIF."
 
@@ -374,10 +374,10 @@ def admin_agregar_empleado():
 
         error = ""
 
-        if employee_with_same_username is not None:
+        if employee_with_same_username != None:
             error += "Ya existe un trabajador con ese nombre de usuario."
 
-        if employee_with_same_nif > 0 is not None:
+        if employee_with_same_nif != None:
             error += "Ya existe un trabajador con ese NIF."
 
         if error != "":
