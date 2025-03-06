@@ -351,6 +351,21 @@ def admin_agregar_empleado():
         return render_template("forms/add_trabajador.html", form=form, error=error, latest_time=time)
 
     if form.validate_on_submit():
+        # Manejar errores de datos únicos
+        employees_with_same_username = Trabajador.get_by_username(form.username.data)
+        employees_with_same_nif = Trabajador.get_by_nif(form.nif.data)
+
+        error = ""
+
+        if len(employees_with_same_username) > 0:
+            error += "Ya existe un trabajador con ese nombre de usuario."
+
+        if len(employees_with_same_nif) > 0:
+            error += "Ya existe un trabajador con ese NIF."
+
+        if error != "":
+            return goto_agregar(error)
+
         # Creamos al trabajador
         Trabajador(
             nif=form.nif.data,
