@@ -52,6 +52,11 @@ class Trabajador(db.Model):
         return cls.query.filter(Trabajador.username.ilike(username)).first()
 
     @classmethod
+    def get_by_nif(cls, nif):
+        """ Busca a un empleado por su NIF. No es case sensitive. """
+        return cls.query.filter(Trabajador.nif.ilike(nif)).first()
+
+    @classmethod
     def get_all(cls):
         return cls.query.all()
 
