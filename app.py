@@ -293,7 +293,7 @@ def admin_agregar_empleado():
             username=form.username.data,
             password=form.password.data,
             # Cutre 😎
-            rol=Rol.query.filter_by(nombre="Trabajador").first(),
+            rol=Rol.query.filter_by(nombre="Empleado").first(),
             empresa=Empresa.get_first(),
             horario=Horario.get_all()[0]
         ).save()
