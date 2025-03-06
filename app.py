@@ -9,7 +9,7 @@ from mytime import MyTime
 
 from config import Config
 from extensions import db
-from models import Dia, Empresa, FranjaHoraria, Horario, Incidencia, Receta, Registro, Rol, Trabajador
+from models import Dia, Empresa, FranjaHoraria, Horario, Incidencia, Registro, Rol, Trabajador
 from resources import LoginResource, FichajeResource
 from web import LoginForm, EmpresaForm, TrabajadorForm, MyTimeForm, is_authenticated, get_authenticated_username
 
@@ -58,7 +58,7 @@ def inject_user():
 
 @app.shell_context_processor
 def make_shell_contex():
-    return dict(db=db, Dia=Dia, Empresa=Empresa, FranjaHoraria=FranjaHoraria, Horario=Horario, Incidencia=Incidencia, Receta=Receta, Registro=Registro, Rol=Rol, Trabajador=Trabajador)
+    return dict(db=db, Dia=Dia, Empresa=Empresa, FranjaHoraria=FranjaHoraria, Horario=Horario, Incidencia=Incidencia, Registro=Registro, Rol=Rol, Trabajador=Trabajador)
 
 
 
