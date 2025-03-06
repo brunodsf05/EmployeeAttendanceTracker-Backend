@@ -133,7 +133,7 @@ def admin_home():
 @app.errorhandler(HTTPStatus.NOT_FOUND)
 def page_not_found(e):
    """ La url no existe en el sistema """
-   return render_template("404.html"), HTTPStatus.NOT_FOUND
+   return render_template("error/404.html"), HTTPStatus.NOT_FOUND
 
 
 
