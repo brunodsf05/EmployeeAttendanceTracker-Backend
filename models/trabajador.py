@@ -48,7 +48,8 @@ class Trabajador(db.Model):
 
     @classmethod
     def get_by_username(cls, username):
-        return cls.query.filter_by(username=username).first()
+        """ Busca a un empleado por su nombre de usuario. No es case sensitive. """
+        return cls.query.filter(Trabajador.username.ilike(username)).first()
 
     @classmethod
     def get_all(cls):
