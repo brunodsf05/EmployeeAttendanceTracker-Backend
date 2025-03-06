@@ -12,4 +12,5 @@ __all__ = [
     "TrabajadorForm",
     "MyTimeForm",
     "is_authenticated",
+    "get_authenticated_username",
 ]

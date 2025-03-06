@@ -11,7 +11,7 @@ from config import Config
 from extensions import db
 from models import Dia, Empresa, FranjaHoraria, Horario, Incidencia, Receta, Registro, Rol, Trabajador
 from resources import LoginResource, FichajeResource
-from web import LoginForm, EmpresaForm, TrabajadorForm, MyTimeForm, is_authenticated
+from web import LoginForm, EmpresaForm, TrabajadorForm, MyTimeForm, is_authenticated, get_authenticated_username
 from flask_jwt_extended import decode_token, create_access_token, create_refresh_token
 from flask import request, redirect, url_for
 
@@ -313,6 +313,9 @@ def admin_dardebaja_empleado(id):
     trabajador = Trabajador.get_by_id(id)
 
     if trabajador is None:
+        return redirect(url_for("page_not_found"))
+
+    if trabajador.username == get_authenticated_username():
         return redirect(url_for("page_not_found"))
 
     trabajador.debaja = True
