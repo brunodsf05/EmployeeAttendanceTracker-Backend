@@ -9,8 +9,8 @@ class FranjaHoraria(db.Model):
     hora_entrada = db.Column(db.Time, nullable=False)
     hora_salida = db.Column(db.Time, nullable=False)
 
-    horario_id = db.Column(db.Integer, db.ForeignKey("horarios.id"))
-    dia_id = db.Column(db.Integer, db.ForeignKey("dias.id"))
+    horario_id = db.Column(db.Integer, db.ForeignKey("horarios.id", ondelete="CASCADE"))
+    dia_id = db.Column(db.Integer, db.ForeignKey("dias.id", ondelete="RESTRICT"))
 
     horario = db.relationship("Horario", backref=db.backref("franjas_horarias", lazy=True))
     dia = db.relationship("Dia", backref=db.backref("franjas_horarias", lazy=True))

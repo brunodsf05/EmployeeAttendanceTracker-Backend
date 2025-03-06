@@ -9,7 +9,7 @@ class Incidencia(db.Model):
     fecha = db.Column(db.Date, nullable=False)
     descripcion = db.Column(db.String(255))
 
-    trabajador_id = db.Column(db.Integer, db.ForeignKey("trabajadores.id"))
+    trabajador_id = db.Column(db.Integer, db.ForeignKey("trabajadores.id", ondelete="RESTRICT"))
     trabajador = db.relationship("Trabajador", backref=db.backref("incidencias", lazy=True))
 
 

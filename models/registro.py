@@ -10,7 +10,7 @@ class Registro(db.Model):
     hora_entrada = db.Column(db.Time, nullable=True)
     hora_salida = db.Column(db.Time, nullable=True)
 
-    trabajador_id = db.Column(db.Integer, db.ForeignKey("trabajadores.id"))
+    trabajador_id = db.Column(db.Integer, db.ForeignKey("trabajadores.id", ondelete="RESTRICT"))
     trabajador = db.relationship("Trabajador", backref=db.backref("registros", lazy=True))
 
     @classmethod
