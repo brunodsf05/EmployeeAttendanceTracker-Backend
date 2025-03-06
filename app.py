@@ -137,6 +137,13 @@ def page_not_found(e):
 
 
 
+@app.errorhandler(HTTPStatus.FORBIDDEN)
+def forbidden_action(e):
+   """ Notifica al administrador de que no puede realizar eso """
+   return render_template("forbidden.html"), HTTPStatus.FORBIDDEN
+
+
+
 # MARK: FE: SESIÓN
 
 @app.route("/admin/login", methods=["GET", "POST"])
@@ -376,7 +383,7 @@ def admin_dardebaja_empleado(id):
 
 
     if trabajador.username == get_authenticated_username():
-        return abort(HTTPStatus.NOT_FOUND)
+        return abort(HTTPStatus.FORBIDDEN)
 
 
     trabajador.debaja = True
