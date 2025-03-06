@@ -132,6 +132,15 @@ def admin_home():
 
 
 
+@app.errorhandler(HTTPStatus.NOT_FOUND)
+def page_not_found(e):
+   """ La url no existe en el sistema """
+   return render_template("404.html"), HTTPStatus.NOT_FOUND
+
+
+
+# MARK: FE: SESIÓN
+
 @app.route("/admin/login", methods=["GET", "POST"])
 def admin_login():
     """ Inicio de sesión solo para administradores """
@@ -178,6 +187,19 @@ def admin_login():
 
 
 
+@app.route("/logout")
+def close():
+    """ Cerrar la sesión del panel de control eliminando la cookie """
+    response = redirect(url_for("index"))
+    response.delete_cookie("access_token")
+    response.delete_cookie("refresh_token")
+    response.delete_cookie("admin_name")
+    return response
+
+
+
+# MARK: FE: EMPESA
+
 @app.route("/admin/empresa", methods=["GET", "POST"])
 def admin_empresa():
     """ Interfaz para configurar los datos de la empresa """
@@ -216,6 +238,44 @@ def admin_empresa():
     return goto_empresa()
 
 
+
+# MARK: FE: TIEMPO
+
+@app.route("/admin/tiempo", methods=["GET", "POST"])
+def admin_mytime():
+    """ Interfaz para configurar la fecha y horas del servidor """
+    if not is_authenticated():
+        return try_to_regain_session()
+
+    form = MyTimeForm()
+
+    def goto_mytime(error="", sucess=False):
+        time = datetime.now().isoformat() if sucess else ""
+        return render_template("forms/mytime.html", form=form, error=error, latest_time=time)
+
+    # ¿Leemos o actualizamos?
+    if form.validate_on_submit():
+        # Actualizar los datos de la empresa
+        if form.use_now.data:
+            MyTime.set(True)
+
+        else:
+            fecha = form.date.data
+            hora = form.time.data
+            MyTime.set(False, fecha, hora)
+
+        return goto_mytime(sucess=True)
+    else:
+        # Rellenar el formulario con los datos de la empresa
+        form.use_now.data = MyTime.is_automatic()
+        form.date.data = MyTime.get().date()
+        form.time.data = MyTime.get().time()
+
+    return goto_mytime()
+
+
+
+# MARK: FE: EMPLEADOS
 
 @app.route("/admin/empleados", methods=["GET", "POST"])
 def admin_listar_empleados():
@@ -344,58 +404,6 @@ def admin_dardealta_empleado(id):
     trabajador.save()
 
     return redirect(url_for("admin_listar_empleados"))
-
-
-
-@app.route("/admin/tiempo", methods=["GET", "POST"])
-def admin_mytime():
-    """ Interfaz para configurar la fecha y horas del servidor """
-    if not is_authenticated():
-        return try_to_regain_session()
-
-    form = MyTimeForm()
-
-    def goto_mytime(error="", sucess=False):
-        time = datetime.now().isoformat() if sucess else ""
-        return render_template("forms/mytime.html", form=form, error=error, latest_time=time)
-
-    # ¿Leemos o actualizamos?
-    if form.validate_on_submit():
-        # Actualizar los datos de la empresa
-        if form.use_now.data:
-            MyTime.set(True)
-
-        else:
-            fecha = form.date.data
-            hora = form.time.data
-            MyTime.set(False, fecha, hora)
-
-        return goto_mytime(sucess=True)
-    else:
-        # Rellenar el formulario con los datos de la empresa
-        form.use_now.data = MyTime.is_automatic()
-        form.date.data = MyTime.get().date()
-        form.time.data = MyTime.get().time()
-
-    return goto_mytime()
-
-
-
-@app.route("/logout")
-def close():
-    """ Cerrar la sesión del panel de control eliminando la cookie """
-    response = redirect(url_for("index"))
-    response.delete_cookie("access_token")
-    response.delete_cookie("refresh_token")
-    response.delete_cookie("admin_name")
-    return response
-
-
-
-@app.errorhandler(HTTPStatus.NOT_FOUND)
-def page_not_found(e):
-   """ La url no existe en el sistema """
-   return render_template("404.html"), HTTPStatus.NOT_FOUND
 
 
 
