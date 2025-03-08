@@ -311,7 +311,7 @@ def admin_listar_registros(id):
     registros_irregulares = []
     registros_correctos = []
 
-    return render_template("lists/list_registros.html", registros_irregulares=registros_irregulares, registros_correctos=registros_correctos)
+    return render_template("lists/list_registros.html", nombre_trabajador=trabajador.nombre, registros_irregulares=registros_irregulares, registros_correctos=registros_correctos)
 
 
 
