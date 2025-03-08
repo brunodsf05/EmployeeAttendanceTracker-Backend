@@ -308,7 +308,10 @@ def admin_listar_registros(id):
     if trabajador is None:
         return abort(HTTPStatus.NOT_FOUND)
 
-    return redirect(url_for("index"))
+    registros_irregulares = []
+    registros_correctos = []
+
+    return render_template("lists/list_registros.html", registros_irregulares=registros_irregulares, registros_correctos=registros_correctos)
 
 
 
