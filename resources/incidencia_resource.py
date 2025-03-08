@@ -33,7 +33,7 @@ class IncidenciaResource(Resource):
             Incidencia(
                 fecha=incidencia_datetime,
                 descripcion=incidencia_description,
-                trabajadorid=trabajador.id
+                trabajador=trabajador
             ).save()
 
         except Exception:
