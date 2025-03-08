@@ -6,7 +6,7 @@ class Incidencia(db.Model):
     __tablename__ = "incidencias"
 
     id = db.Column(db.Integer, primary_key=True)
-    fecha = db.Column(db.Date, nullable=False)
+    fecha = db.Column(db.DateTime, nullable=False)
     descripcion = db.Column(db.String(255))
 
     trabajador_id = db.Column(db.Integer, db.ForeignKey("trabajadores.id", ondelete="RESTRICT"))
