@@ -308,8 +308,8 @@ def admin_listar_registros(id):
     if trabajador is None:
         return abort(HTTPStatus.NOT_FOUND)
 
-    registros_irregulares = []
-    registros_correctos = []
+    registros_irregulares = Registro.get_all_weird(trabajador)
+    registros_correctos = Registro.get_all_good(trabajador)
 
     return render_template("lists/list_registros.html", nombre_trabajador=trabajador.nombre, registros_irregulares=registros_irregulares, registros_correctos=registros_correctos)
 

@@ -21,6 +21,16 @@ class Registro(db.Model):
     def get_all(cls):
         return cls.query.all()
 
+    @classmethod
+    def get_all_weird_from_trabajador(cls, trabajador):
+        """ Lista todos los registros de un trabajador que no sean correctos. Ejemplo: Les falta la salida, etc... """
+        return cls.query.all()
+
+    @classmethod
+    def get_all_good_from_trabajador(cls, trabajador):
+        """ Lista todos los registros de un trabajador que tenga entrada y salida correctas """
+        return cls.query.all()
+
     def save(self):
         db.session.add(self)
         db.session.commit()
