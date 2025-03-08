@@ -8,8 +8,7 @@
                 <th>Teléfono</th>
                 <th>Username</th>
                 <th>Rol</th>
-                <th class="text-center">Editar</th>
-                <th class="text-center">Eliminar</th>
+                <th class="text-center">Acciones</th>
             </tr>
         </thead>
         <tbody>
@@ -21,13 +20,16 @@
                     <td>{{ empleado.telefono }}</td>
                     <td>{{ empleado.username }}</td>
                     <td>{{ empleado.rol.nombre }}</td>
-                    <td><a href="{{ url_for('admin_editar_empleado', id=empleado.id) }}" class="btn btn-warning">Editar</a></td>
                     <td>
-                        {% if empleado.debaja %}
-                            <a href="{{ url_for('admin_dardealta_empleado', id=empleado.id) }}" class="btn btn-success">Dar de alta</a>
-                        {% else %}
-                            <a href="{{ url_for('admin_dardebaja_empleado', id=empleado.id) }}" class="btn btn-danger">Dar de baja</a>
-                        {% endif %}
+                        <div class="btn-group" role="group">
+                            <a href="{{ url_for('admin_editar_empleado', id=empleado.id) }}" class="btn btn-warning">Editar</a>
+
+                            {% if empleado.debaja %}
+                                <a href="{{ url_for('admin_dardealta_empleado', id=empleado.id) }}" class="btn btn-success">Dar de alta</a>
+                            {% else %}
+                                <a href="{{ url_for('admin_dardebaja_empleado', id=empleado.id) }}" class="btn btn-danger">Dar de baja</a>
+                            {% endif %}
+                        </div>
                     </td>
                 </tr>
             {% endfor %}
