@@ -26,4 +26,17 @@ class IncidenciaResource(Resource):
         # Leer ubicación
         data = request.get_json()
 
+        try:
+            incidencia_datetime = datetime.strptime(data["datetime"], "%Y-%m-%dT%H:%M:%SZ")
+            incidencia_description = data["description"]
+
+            Incidencia(
+                fecha=incidencia_datetime,
+                descripcion=incidencia_description,
+                trabajadorid=trabajador.id
+            ).save()
+
+        except Exception:
+            return {"error": "badrequest"}, HTTPStatus.BAD_REQUEST
+
         return data, HTTPStatus.OK
