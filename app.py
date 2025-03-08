@@ -10,7 +10,7 @@ from mytime import MyTime
 from config import Config
 from extensions import db
 from models import Dia, Empresa, FranjaHoraria, Horario, Incidencia, Registro, Rol, Trabajador
-from resources import LoginResource, FichajeResource
+from resources import LoginResource, FichajeResource, IncidenciaResource
 from web import LoginForm, EmpresaForm, TrabajadorForm, MyTimeForm, is_authenticated, get_authenticated_username
 
 
@@ -41,6 +41,7 @@ def register_resources(app):
     api = Api(app)
     api.add_resource(LoginResource, "/login")
     api.add_resource(FichajeResource, "/fichar")
+    api.add_resource(IncidenciaResource, "/incidencia")
 
 
 
