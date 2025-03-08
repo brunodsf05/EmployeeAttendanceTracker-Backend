@@ -23,6 +23,7 @@
                     <td>
                         <div class="btn-group" role="group">
                             <a href="{{ url_for('admin_editar_empleado', id=empleado.id) }}" class="btn btn-warning">Editar</a>
+                            <a href="{{ url_for('admin_listar_registros', id=empleado.id) }}" class="btn btn-primary">Ver registros</a>
 
                             {% if empleado.debaja %}
                                 <a href="{{ url_for('admin_dardealta_empleado', id=empleado.id) }}" class="btn btn-success">Dar de alta</a>

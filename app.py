@@ -296,6 +296,22 @@ def admin_listar_empleados():
 
 
 
+@app.route("/admin/empleados/registros/<int:id>", methods=["GET", "POST"])
+def admin_listar_registros(id):
+    """ Interfaz para listar los registros de un empleado """
+    if not is_authenticated():
+        return try_to_regain_session()
+
+    # Manejar existencia del empleado
+    trabajador = Trabajador.get_by_id(id)
+
+    if trabajador is None:
+        return abort(HTTPStatus.NOT_FOUND)
+
+    return redirect(url_for("index"))
+
+
+
 @app.route("/admin/empleado/editar/<int:id>", methods=["GET", "POST"])
 def admin_editar_empleado(id):
     """ Interfaz para modificar a un empleado """
