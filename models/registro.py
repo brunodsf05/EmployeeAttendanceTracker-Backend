@@ -24,7 +24,7 @@ class Registro(db.Model):
     @classmethod
     def get_all_weird_from_trabajador(cls, trabajador):
         """ Lista todos los registros de un trabajador que no sean correctos. Ejemplo: Les falta la salida, etc... """
-        return cls.query.filter_by(trabajador=trabajador, hora_salida=None)
+        return cls.query.filter_by(trabajador=trabajador, hora_salida=None).all()
 
     @classmethod
     def get_all_good_from_trabajador(cls, trabajador):
