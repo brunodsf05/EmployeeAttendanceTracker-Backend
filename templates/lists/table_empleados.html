@@ -4,11 +4,11 @@
             <tr>
                 <th>Id</th>
                 <th>NIF</th>
-                <th class="col-md-auto">Nombre</th>
+                <th>Nombre</th>
                 <th>Teléfono</th>
                 <th>Username</th>
                 <th>Rol</th>
-                <th colspan="3" class="text-center">Acciones</th>
+                <th class="text-center">Acciones</th>
             </tr>
         </thead>
         <tbody>
@@ -16,12 +16,14 @@
                 <tr>
                     <td>{{ empleado.id }}</td>
                     <td>{{ empleado.nif }}</td>
-                    <td class="col-md-auto">{{ empleado.nombre }}</td>
+                    <td>{{ empleado.nombre }}</td>
                     <td>{{ empleado.telefono }}</td>
                     <td>{{ empleado.username }}</td>
                     <td>{{ empleado.rol.nombre }}</td>
-                    <td><a href="{{ url_for('admin_editar_empleado', id=empleado.id) }}" class="btn btn-warning">Editar</a></td>
-                    <td><a href="{{ url_for('admin_listar_registros', id=empleado.id) }}" class="btn btn-primary">Ver registros</a></td><td>
+                    <td>
+                        <a href="{{ url_for('admin_editar_empleado', id=empleado.id) }}" class="btn btn-warning">Editar</a>
+                        <a href="{{ url_for('admin_listar_registros', id=empleado.id) }}" class="btn btn-primary">Ver registros</a>
+
                         {% if empleado.debaja %}
                             <a href="{{ url_for('admin_dardealta_empleado', id=empleado.id) }}" class="btn btn-success">Dar de alta</a>
                         {% else %}
