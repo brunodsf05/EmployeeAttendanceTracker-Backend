@@ -13,6 +13,31 @@ class Registro(db.Model):
     trabajador_id = db.Column(db.Integer, db.ForeignKey("trabajadores.id", ondelete="RESTRICT"))
     trabajador = db.relationship("Trabajador", backref=db.backref("registros", lazy=True))
 
+
+
+    @property
+    def fecha_str(self):
+        if self.fecha:
+            return self.fecha.strftime("%Y-%m-%d")
+        else:
+            return "N/A"
+
+    @property
+    def hora_entrada_str(self):
+        if self.hora_entrada:
+            return self.hora_entrada.strftime("%H:%M:%S")
+        else:
+            return "N/A"
+
+    @property
+    def hora_salida_str(self):
+        if self.hora_salida:
+            return self.hora_salida.strftime("%H:%M:%S")
+        else:
+            return "N/A"
+
+
+
     @classmethod
     def get_by_id(cls, id):
         return cls.query.filter_by(id=id).first()

@@ -10,9 +10,9 @@
         <tbody>
             {% for registro in registros %}
                 <tr>
-                    <td>{{ registro.fecha }}</td>
-                    <td>{{ empleado.hora_entrada }}</td>
-                    <td>{{ empleado.hora_salida }}</td>
+                    <td>{{ registro.fecha_str }}</td>
+                    <td>{{ empleado.hora_entrada_str }}</td>
+                    <td>{{ empleado.hora_salida_str }}</td>
                 </tr>
             {% endfor %}
         </tbody>
