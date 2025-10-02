@@ -1,17 +1,24 @@
-# Cachea las credenciales de git
-cache_git:
-	git config --local credential.helper store
+# COMMANDS ####################################################################
 
-# Lee el repositorio y realiza las migraciones de la base de datos
-pull:
-	git pull origin main
-
-# Solo realizar las migraciones de la base de datos
-update:
+# Initialize and apply database migrations after cloning
+init:
+	pip install -r requirements.txt
+	flask db init
 	flask db migrate
 	flask db upgrade
 
-# Alias
-c: cache_git
-p: pull
-u: update
+# Apply migrations after modifying database models
+dbmigrate:
+	flask db migrate
+	flask db upgrade
+
+# Run the development server
+run:
+	flask run
+
+
+
+# ALIASES #####################################################################
+i: init
+m: dbmigrate
+r: run

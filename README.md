@@ -27,12 +27,22 @@ You are currently looking at the **backend**, built with **Python**, **Flask**, 
 
 
 ## 📥 Installation and Setup
-Clone the repository and install dependencies:
-
+Clone the repository:
 ```sh
 git clone https://github.com/brunodsf05/EmployeeAttendanceTracker-Backend.git
 cd EmployeeAttendanceTracker-Backend
+```
+
+> [!NOTE]  
+> Each code block with commands has a Make alias you can run instead. Example: `make i`
+
+Then install the dependencies and initialize the database.
+```sh
+# make i
 pip install -r requirements.txt
+flask db init
+flask db migrate
+flask db upgrade
 ```
 
 ### 🔑 Environment Variables
@@ -45,17 +55,10 @@ The variables are read after each `flask run`.
 This section assumes you have completed _Installation and Setup_.
 
 ### 🗄️ Database
-If you have just cloned this repository, run the following commands:
+If you want to modify some **database models** run:
 
 ```sh
-flask db init
-flask db migrate
-flask db upgrade
-```
-
-Later, if you want to modify the **database models**, run:
-
-```sh
+# make m
 flask db migrate
 flask db upgrade
 ```
@@ -64,6 +67,7 @@ flask db upgrade
 Start the development server:
 
 ```sh
+# make r
 flask run
 ```
 
