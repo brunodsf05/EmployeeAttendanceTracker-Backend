@@ -44,7 +44,7 @@ afternoon_shift = FranjaHoraria(hora_entrada=time(14, 0), hora_salida=time(22, 0
 
 # Create Trabajadores (associate with Rol, Horario, and Empresa after creation)
 admin_user = Trabajador(nif="12345678A", nombre="John Doe", telefono="123456789",
-                        username="admin", password="password")
+                        username="admin", password="password", debaja=False)
 employee_user = Trabajador(nif="87654321B", nombre="Jane Smith", telefono="987654321",
                             username="employee", password="password")
 
