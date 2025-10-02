@@ -1,18 +1,80 @@
-# ControlDePresencia2025 - Android
-Hecho por Bruno Di Sabatino
+# EmployeeAttendanceTracker-Backend
 
-## Base de datos
-Son comandos para alterar la base de datos durante el desarrollo:
+This project is a service for managing employee attendance.
 
-### Inicio
-Es necesario para inicializar la base de datos y sus tablas.
+You are currently looking at the **backend**, built with **Python**, **Flask**, and **SQLAlchemy**.
+
+
+
+## ✨ Features
+-   🔐 **User Authentication**: Secure login for administrators and employees.
+-   🕒 **Clock In/Out**: Employees can register entry and exit times.
+-   📊 **Attendance Records**: Store and query presence and absence logs.
+-   📅 **Schedule Management**: Administrators can configure working hours.
+
+
+
+## ⚙️ Prerequisites
+
+### ✅ Required
+-   🐍 **Python** 3.10 or higher
+-   📦 All dependencies listed in `requirements.txt`
+
+### 🧩 Optional
+-   🌀 **Git** to clone this repository
+-   🛠️ **Make** to run server maintenance tasks quickly
+
+
+
+## 📥 Installation and Setup
+Clone the repository and install dependencies:
+
 ```sh
-flask db init
+git clone https://github.com/brunodsf05/EmployeeAttendanceTracker-Backend.git
+cd EmployeeAttendanceTracker-Backend
+pip install -r requirements.txt
 ```
 
-### Tras cada cambio
-Actualiza la base de datos con los cambios que le hayamos hecho a los modelos.
+### 🔑 Environment Variables
+These are required. Copy `.env.example` to `.env` and fill in the values.
+The variables are read after each `flask run`.
+
+
+
+## 🛠️ Maintenance
+This section assumes you have completed _Installation and Setup_.
+
+### 🗄️ Database
+If you have just cloned this repository, run the following commands:
+
+```sh
+flask db init
+flask db migrate
+flask db upgrade
+```
+
+Later, if you want to modify the **database models**, run:
+
 ```sh
 flask db migrate
 flask db upgrade
 ```
+
+### 🏃‍♂️‍➡️ Running the Server
+Start the development server:
+
+```sh
+flask run
+```
+
+
+
+## 📂 Project Structure
+-   📌 `app.py` Main Flask application file
+-   ⚙️ `config.py` Application configuration
+-   🔗 `extensions.py` Initialization of extensions (SQLAlchemy, JWT, etc.)
+-   🗃️ `models/` Database ORM models
+-   🌐 `resources/` REST API endpoints
+-   🖼️ `templates/` HTML templates (admin web interface)
+-   📋 `web/` Forms and functions related to the web interface
+-   🧪 `mockdata.py` Script to generate sample data
