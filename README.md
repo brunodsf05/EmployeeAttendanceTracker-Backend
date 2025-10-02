@@ -81,11 +81,17 @@ flask run
 
 If you need mock data, open a new terminal (yes, while flask is running in the background) and open a flask shell:
 ```sh
-# make r
 flask shell
 ```
 
-Inside you can copy paste the lines from [mockdata.py](mockdata.py) to start using **EmployeeAttendanceTracker** with no problems.
+Inside copy the next line to create all the necessary models.
+```python
+mockdata_create()
+```
+
+> [!IMPORTANT]  
+> If you are testing and want to restart the database with mockdata_create(), it is recommended to delete all rows.
+> To do so: 1. Delete `instance` and `migrations` folder. 2. Execute again `flask db init && flask db migrate && flask db upgrade`.
 
 
 

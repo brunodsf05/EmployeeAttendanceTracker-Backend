@@ -59,7 +59,9 @@ def inject_user():
 
 @app.shell_context_processor
 def make_shell_contex():
-    return dict(db=db, Dia=Dia, Empresa=Empresa, FranjaHoraria=FranjaHoraria, Horario=Horario, Incidencia=Incidencia, Registro=Registro, Rol=Rol, Trabajador=Trabajador)
+    from mockdata import mockdata_create
+    models = dict(Dia=Dia, Empresa=Empresa, FranjaHoraria=FranjaHoraria, Horario=Horario, Incidencia=Incidencia, Registro=Registro, Rol=Rol, Trabajador=Trabajador)
+    return dict(db=db, mockdata_create=mockdata_create, **models)
 
 
 
