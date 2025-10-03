@@ -4,6 +4,8 @@ This project is a service for managing employee attendance.
 
 You are currently looking at the **backend**, built with **Python**, **Flask**, and **SQLAlchemy**.
 
+[EmployeeAttendanceTracker-Android](https://github.com/brunodsf05/EmployeeAttendanceTracker-Android)
+
 
 
 ## ✨ Features
