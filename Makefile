@@ -14,7 +14,7 @@ dbmigrate:
 
 # Run the development server
 run:
-	flask run
+	flask run --host=0.0.0.0 --port=5000
 
 
 

@@ -76,7 +76,7 @@ Some hostings automatically execute **Flask** for you, but anyways, if you are i
 
 ```sh
 # make r
-flask run
+flask run --host=0.0.0.0 --port=5000 # THis will allow any device in yout network connecto to the server
 ```
 
 If you need mock data, open a new terminal (yes, while flask is running in the background) and open a flask shell:
