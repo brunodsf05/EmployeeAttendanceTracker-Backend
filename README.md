@@ -8,6 +8,11 @@ You are currently looking at the **backend**, built with **Python**, **Flask**, 
 
 
 
+## 👁️ Showcase
+[Watch the video!](https://youtu.be/EcF_eAEUjeo)
+
+
+
 ## ✨ Features
 -   🔐 **User Authentication**: Secure login for administrators.
 -   🏢 **Company management**: Change company name and location with ease.
