@@ -1,6 +1,16 @@
 from models import Dia, Empresa, FranjaHoraria, Horario, Rol, Trabajador
 from datetime import time
 
+"""
+This mockdata creates:
+- Two users: John Doe (Administrator) and Jane Smith (Employee)
+- Two schedules: Full Time (09:00-17:00) and Part Time (14:00-22:00)
+
+So for each employee:
+- John Doe will work every Monday from 09:00 to 17:00
+- Jane Smith will work every Tuesday from 14:00 to 22:00
+"""
+
 def mockdata_create():
     print("Creating mockdata...")
 
