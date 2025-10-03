@@ -7,10 +7,11 @@ You are currently looking at the **backend**, built with **Python**, **Flask**, 
 
 
 ## ✨ Features
--   🔐 **User Authentication**: Secure login for administrators and employees.
--   🕒 **Clock In/Out**: Employees can register entry and exit times.
--   📊 **Attendance Records**: Store and query presence and absence logs.
--   📅 **Schedule Management**: Administrators can configure working hours.
+-   🔐 **User Authentication**: Secure login for administrators.
+-   🏢 **Company management**: Change company name and location with ease.
+-   🧑‍💼 **Employees management**: Add employees or deactivate them.
+-   📊 **Attendance Records**: Query presence and absence logs for each employee.
+-   ⌛ **Powerful testing**: Change the server time to quickly test the clock in/out system.
 
 
 
